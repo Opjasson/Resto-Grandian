@@ -41,6 +41,11 @@ const CartItem = () => (
 
             <View style={styles.quantityRow}>
                 <Text style={styles.quantity}>2</Text>
+
+                <TouchableOpacity style={styles.plusButton}>
+                    <AntDesign name="minus" size={18} color="#fff" />
+                </TouchableOpacity>
+
                 <TouchableOpacity style={styles.plusButton}>
                     <AntDesign name="plus" size={18} color="#fff" />
                 </TouchableOpacity>
@@ -104,14 +109,6 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
             {/* Summary */}
             <View style={styles.summary}>
-                <View style={styles.summaryRow}>
-                    <Text>Subtotal</Text>
-                    <Text>Rp 100.000</Text>
-                </View>
-                <View style={styles.summaryRow}>
-                    <Text>Discount</Text>
-                    <Text>Rp 25.000</Text>
-                </View>
                 <View style={styles.summaryRow}>
                     <Text style={styles.totalLabel}>Total</Text>
                     <Text style={styles.totalLabel}>Rp 75.000</Text>
