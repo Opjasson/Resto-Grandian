@@ -10,6 +10,7 @@ import {
     SplashScreen,
     TambahProduct,
     UbahProduct,
+    HistoryPesanan,
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonTabs } from "../components/moleculs";
@@ -41,6 +42,7 @@ const Router = () => {
                 name="UbahProduct"
                 component={UbahProduct}
             />
+            <Stack.Screen name="HistoryPenjualan" component={HistoryPesanan} />
         </Stack.Navigator>
     );
 };

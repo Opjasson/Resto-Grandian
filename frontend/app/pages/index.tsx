@@ -6,6 +6,7 @@ import Profile from "./profile";
 import DetailProduct from "./detailProduct";
 import TambahProduct from "./tambahProduct";
 import UbahProduct from "./ubahProduct";
+import HistoryPesanan from "./historyPesanan";
 
 export {
     SplashScreen,
@@ -15,5 +16,6 @@ export {
     Profile,
     DetailProduct,
     TambahProduct,
-    UbahProduct
+    UbahProduct,
+    HistoryPesanan
 };
