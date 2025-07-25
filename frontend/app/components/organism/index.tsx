@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Octicons from "@expo/vector-icons/Octicons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 interface props {
     onPress1: () => void;
@@ -10,6 +12,7 @@ interface props {
     onPress4: () => void;
     onPress5: () => void;
     toggleOpen: () => void;
+    status?: boolean;
 }
 
 const DrawerContent: React.FC<props> = ({
@@ -19,29 +22,76 @@ const DrawerContent: React.FC<props> = ({
     onPress3,
     onPress4,
     onPress5,
+    status,
 }) => {
     return (
         <View style={styles.animatedBox}>
             <View style={styles.sidebarHead}>
-                <FontAwesome5 name="cash-register" size={28} color="white" />
-                <Text style={styles.sidebarTitle}>Kasir Bengkel</Text>
+                <Ionicons name="restaurant" size={28} color="white" />
+                <Text style={styles.sidebarTitle}>Grandian Resto</Text>
             </View>
 
             <View style={styles.sidebarMain}>
-                <TouchableOpacity onPress={onPress1}>
-                    <Text style={styles.sidebarMenu}>Transaksi Baru</Text>
+                <TouchableOpacity
+                    onPress={onPress1}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                    }}>
+                    <Text style={styles.sidebarMenu}>Cart</Text>
+                    <AntDesign name="shoppingcart" size={27} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={onPress2}>
-                    <Text style={styles.sidebarMenu}>Manage Menu</Text>
+                <TouchableOpacity
+                    onPress={onPress1}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                    }}>
+                    <Text style={styles.sidebarMenu}>Home</Text>
+                    <AntDesign name="home" size={27} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={onPress3}>
-                    <Text style={styles.sidebarMenu}>History transaksi</Text>
+                <TouchableOpacity
+                    onPress={onPress2}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                        display: status ? "none" : "flex",
+                    }}>
+                    <Text style={styles.sidebarMenu}>History Pesanan</Text>
+                    <Octicons name="history" size={27} color="black" />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={onPress5}>
+                <TouchableOpacity
+                    onPress={onPress3}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                        display: status ? "none" : "flex",
+                    }}>
+                    <Text style={styles.sidebarMenu}>Atur Product</Text>
+                    <Ionicons
+                        name="fast-food-outline"
+                        size={27}
+                        color="black"
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={onPress5}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                        display: status ? "none" : "flex",
+                    }}>
                     <Text style={styles.sidebarMenu}>Laporan</Text>
+                    <FontAwesome5 name="tasks" size={27} color="black" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -84,7 +134,7 @@ const styles = StyleSheet.create({
     sidebarHead: {
         flexDirection: "row",
         gap: 15,
-        backgroundColor: "#27548A",
+        backgroundColor: "#D96F32",
         padding: 15,
     },
     sidebarTitle: {
