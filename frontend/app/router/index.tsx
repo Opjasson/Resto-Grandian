@@ -7,9 +7,9 @@ import {
     KelolaProduct,
     Home,
     Profile,
-    Splas,
-    KelolaProducthScreen,
+    SplashScreen,
     TambahProduct,
+    UbahProduct,
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonTabs } from "../components/moleculs";
@@ -32,6 +32,14 @@ const Router = () => {
                 }}
                 name="TambahProduct"
                 component={TambahProduct}
+            />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Ubah Product",
+                }}
+                name="UbahProduct"
+                component={UbahProduct}
             />
         </Stack.Navigator>
     );
