@@ -87,8 +87,9 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                     borderRadius: 30,
                     gap: 5,
                     marginRight: 10,
-                }}>
-                <Feather name="plus-circle" size={24} color="white" />{" "}
+                }}
+                onPress={() => navigation.navigate("TambahProduct")}>
+                <Feather name="plus-circle" size={24} color="white" />
                 <Text style={{ color: "white" }}>Tambah Product</Text>
             </TouchableOpacity>
             <ScrollView>
