@@ -193,6 +193,7 @@ const index = () => {
                         {/* Product */}
 
                         <TouchableOpacity
+                            onPress={}
                             activeOpacity={0.7}
                             style={{
                                 backgroundColor: "white",
