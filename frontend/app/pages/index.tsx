@@ -6,7 +6,7 @@ import Profile from "./profile";
 import DetailProduct from "./detailProduct";
 import TambahProduct from "./tambahProduct";
 import UbahProduct from "./ubahProduct";
-import HistoryPesanan from "./historyPesanan";
+import HistoryPesanan from "./historyTransaksi";
 
 export {
     SplashScreen,

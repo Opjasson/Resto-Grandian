@@ -42,7 +42,7 @@ const Router = () => {
                 name="UbahProduct"
                 component={UbahProduct}
             />
-            <Stack.Screen name="HistoryPenjualan" component={HistoryPesanan} />
+            <Stack.Screen name="HistoryPesanan" component={HistoryPesanan} />
         </Stack.Navigator>
     );
 };

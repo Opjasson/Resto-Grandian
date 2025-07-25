@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -7,6 +7,9 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { DrawerContent } from "@/app/components";
+import MenuDrawer from "react-native-side-drawer";
 
 const data = [
     {
@@ -63,23 +66,78 @@ const Card = ({ item }) => (
         </View>
     </View>
 );
-  
 
-const HistoryPesanan = () => {
-  return (
-      <View style={styles.container}>
-          <FlatList
-              contentContainerStyle={{ paddingBottom: 100 }}
-              data={data}
-              renderItem={({ item }) => <Card item={item} />}
-              keyExtractor={(item) => item.id}
-          />
-          <TouchableOpacity style={styles.fab}>
-              <AntDesign name="plus" size={30} color="#fff" />
-          </TouchableOpacity>
-      </View>
-  );
+interface props {
+    navigation: NavigationProp<any, any>;
 }
+
+const HistoryPesanan: React.FC<props> = ({ navigation }) => {
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(true);
+
+    const toggleOpen = () => {
+        if (open === false) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
+
+    const sideBarContent = () => {
+        return (
+            <DrawerContent
+                toggleOpen={toggleOpen}
+                onPress1={() => navigation.navigate("Cart")}
+                onPress2={() => navigation.navigate("Home")}
+                onPress3={() => navigation.navigate("history-transaksi")}
+                onPress4={() => navigation.navigate("login")}
+                onPress5={() => navigation.navigate("KelolaProduct")}
+                onPress6={() => navigation.navigate("laporan")}
+            />
+        );
+    };
+    return (
+        <View style={styles.container}>
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginTop: 30,
+                    marginBottom: 20,
+                    marginHorizontal: 30,
+                    gap: 10,
+                    alignItems: "center",
+                }}>
+                <Ionicons
+                    name="menu"
+                    size={30}
+                    color="black"
+                    onPress={() => toggleOpen()}
+                />
+                <Text style={{ fontWeight: "500", fontSize: 20 }}>
+                    History Penjualan
+                </Text>
+            </View>
+            <FlatList
+                contentContainerStyle={{ paddingBottom: 100 }}
+                data={data}
+                renderItem={({ item }) => <Card item={item} />}
+                keyExtractor={(item) => item.id}
+            />
+            <TouchableOpacity style={styles.fab}>
+                <AntDesign name="plus" size={30} color="#fff" />
+            </TouchableOpacity>
+
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={sideBarContent()}
+                drawerPercentage={70}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#f4f4f4" },
@@ -152,4 +210,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HistoryPesanan
+export default HistoryPesanan;
