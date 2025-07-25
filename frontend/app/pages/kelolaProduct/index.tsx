@@ -46,11 +46,11 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         return (
             <DrawerContent
                 toggleOpen={toggleOpen}
-                onPress1={() => navigation.navigate("KelolaProduct")}
+                onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("history-transaksi")}
                 onPress4={() => navigation.navigate("login")}
-                onPress5={() => navigation.navigate("laporan")}
+                onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
             />
         );
@@ -61,9 +61,11 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
             <View
                 style={{
                     flexDirection: "row",
-                    gap: 10,
-                    marginVertical: 20,
-                    marginLeft: 15,
+                    marginTop: 30,
+                    marginBottom: 20,
+                    marginHorizontal: 30,
+                    gap : 10,
+                    alignItems: "center",
                 }}>
                 <Ionicons
                     name="menu"

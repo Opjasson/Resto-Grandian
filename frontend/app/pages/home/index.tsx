@@ -44,11 +44,11 @@ const Home: React.FC<props> = ({ navigation }) => {
         return (
             <DrawerContent
                 toggleOpen={toggleOpen}
-                onPress1={() => navigation.navigate("KelolaProduct")}
+                onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("history-transaksi")}
                 onPress4={() => navigation.navigate("login")}
-                onPress5={() => navigation.navigate("laporan")}
+                onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
             />
         );
