@@ -24,6 +24,7 @@ import MenuDrawer from "react-native-side-drawer";
 import { NavigationProp } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Feather from "@expo/vector-icons/Feather";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -61,7 +62,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 style={{
                     flexDirection: "row",
                     gap: 10,
-                    marginTop: 20,
+                    marginVertical: 20,
                     marginLeft: 15,
                 }}>
                 <Ionicons
@@ -74,6 +75,22 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                     Kelola Product
                 </Text>
             </View>
+            <TouchableOpacity
+                activeOpacity={0.8}
+                style={{
+                    justifyContent: "center",
+                    flexDirection: "row",
+                    backgroundColor: "#2f823a",
+                    alignItems: "center",
+                    paddingHorizontal: 10,
+                    paddingVertical: 10,
+                    borderRadius: 30,
+                    gap: 5,
+                    marginRight: 10,
+                }}>
+                <Feather name="plus-circle" size={24} color="white" />{" "}
+                <Text style={{ color: "white" }}>Tambah Product</Text>
+            </TouchableOpacity>
             <ScrollView>
                 <View
                     style={{
@@ -116,7 +133,6 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                                     With Sugar
                                 </Text>
                             </View>
-                            
                         </View>
 
                         <View
