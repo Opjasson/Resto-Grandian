@@ -48,7 +48,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 toggleOpen={toggleOpen}
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
-                onPress3={() => navigation.navigate("history-transaksi")}
+                onPress3={() => navigation.navigate("HistoryPesanan")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}

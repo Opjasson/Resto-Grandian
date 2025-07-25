@@ -10,6 +10,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
+import { NavigationProp } from "@react-navigation/native";
 
 const data = [
     {
@@ -89,7 +90,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                 toggleOpen={toggleOpen}
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
-                onPress3={() => navigation.navigate("history-transaksi")}
+                onPress3={() => navigation.navigate("HistoryPenjualan")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
@@ -114,7 +115,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                     onPress={() => toggleOpen()}
                 />
                 <Text style={{ fontWeight: "500", fontSize: 20 }}>
-                    History Penjualan
+                    History Pesanan
                 </Text>
             </View>
             <FlatList
