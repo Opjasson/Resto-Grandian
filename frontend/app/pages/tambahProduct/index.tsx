@@ -22,7 +22,7 @@ const TambahProduct = () => {
     return (
         <ScrollView>
             <View style={styles.containerForm}>
-                <Text style={styles.textLabel}>Nama Barang</Text>
+                <Text style={styles.textLabel}>Nama Product</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -30,11 +30,11 @@ const TambahProduct = () => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
-                    placeholder="Nama barang"
+                    placeholder="Nama product"
                     onChangeText={(text) => setNama(text.toLowerCase())}
                 />
 
-                <Text style={styles.textLabel}>Harga Jual</Text>
+                <Text style={styles.textLabel}>Image</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -46,7 +46,7 @@ const TambahProduct = () => {
                     onChangeText={(text) => setharga_jual(Number(text))}
                 />
 
-                <Text style={styles.textLabel}>Harga Beli</Text>
+                <Text style={styles.textLabel}>Deskripsi</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -58,7 +58,7 @@ const TambahProduct = () => {
                     onChangeText={(text) => setharga_beli(Number(text))}
                 />
 
-                <Text style={styles.textLabel}>Stok</Text>
+                <Text style={styles.textLabel}>Harga</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     button: {
-        backgroundColor: "#27548A",
+        backgroundColor: "#2f823a",
         width: 100,
         padding: 8,
         alignItems: "center",
