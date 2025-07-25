@@ -10,6 +10,7 @@ import Cup from "./cup.png"
 import Cup2 from "./cup2.png"
 import Heart from "./heart.png"
 import HeartOff from "./line-heart.png"
+import GopayLogo from "./gopay-logo.png"
 
 export {
     Location,
@@ -23,5 +24,6 @@ export {
     Cup,
     Cup2,
     Heart,
-    HeartOff
+    HeartOff,
+    GopayLogo
 }

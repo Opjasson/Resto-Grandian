@@ -6,8 +6,12 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
+    Button,
+    TextInput,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { GopayLogo } from "@/app/inventory/icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const CartItem = () => (
     <View style={styles.card}>
@@ -40,10 +44,6 @@ const CartItem = () => (
                 </TouchableOpacity>
             </View>
         </View>
-
-        <TouchableOpacity style={styles.likeButton}>
-            <AntDesign name="hearto" size={18} color="#D33" />
-        </TouchableOpacity>
     </View>
 );
 
@@ -74,19 +74,14 @@ const Cart = () => {
             {/* Payment */}
             <Text style={styles.paymentLabel}>Payment</Text>
             <View style={styles.paymentMethods}>
-                <Image
-                    source={{
-                        uri: "https://img.icons8.com/color/48/000000/visa.png",
-                    }}
-                    style={styles.paymentIcon}
-                />
-                <Image
-                    source={{
-                        uri: "https://img.icons8.com/color/48/000000/paypal.png",
-                    }}
-                    style={styles.paymentIcon}
-                />
+                <Image source={GopayLogo} style={styles.paymentIcon} />
+                <Text style={{ alignSelf: "center" }}>: 087895031524</Text>
             </View>
+
+            <TouchableOpacity style={styles.button}>
+                <Ionicons name="camera-outline" size={24} color="black" />
+                <Text style={{ color: "black" }}>Bukti Pembayaran</Text>
+            </TouchableOpacity>
 
             {/* Buy Button */}
             <TouchableOpacity style={styles.buyButton}>
@@ -97,10 +92,18 @@ const Cart = () => {
 };
 
 const styles = StyleSheet.create({
+    button: {
+        backgroundColor: "#F3E9DC",
+        width: "50%",
+        padding: 8,
+        alignItems: "center",
+        borderRadius: 9,
+        color: "black",
+    },
     container: {
         padding: 20,
         backgroundColor: "#fff",
-        paddingBottom: 80,
+        flex: 1,
     },
     cartTitle: {
         fontSize: 18,
@@ -194,9 +197,8 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     paymentIcon: {
-        width: 50,
-        height: 30,
-        resizeMode: "contain",
+        width: 70,
+        height: 50,
     },
     buyButton: {
         backgroundColor: "#1E5128",
