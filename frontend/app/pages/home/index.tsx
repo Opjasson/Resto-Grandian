@@ -23,6 +23,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -31,6 +32,7 @@ interface props {
 const Home: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
+    const [filter, setFilter] = useState<string>("makanan")
 
     const toggleOpen = () => {
         if (open === false) {
@@ -65,7 +67,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                         justifyContent: "space-between",
                         alignItems: "center",
                     }}>
-
                     <Ionicons
                         name="menu"
                         size={30}
@@ -85,7 +86,11 @@ const Home: React.FC<props> = ({ navigation }) => {
                             Tegal, Indonesia
                         </Text>
                     </View>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => status ? setStatus(false) : setStatus(true)}>
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() =>
+                            status ? setStatus(false) : setStatus(true)
+                        }>
                         <Image source={photo} />
                     </TouchableOpacity>
                 </View>
@@ -129,16 +134,16 @@ const Home: React.FC<props> = ({ navigation }) => {
                             Categories
                         </Text>
                     </View>
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}>
+                    <View style={{ justifyContent: "center" }}>
                         {/* Menu */}
                         <TouchableOpacity
+                            onPress={() => setFilter("makanan")}
                             activeOpacity={0.8}
                             style={{
                                 justifyContent: "center",
                                 flexDirection: "row",
-                                backgroundColor: "#2f823a",
+                                backgroundColor:
+                                    filter === "makanan" ? "#2f823a" : "white",
                                 alignItems: "center",
                                 paddingHorizontal: 10,
                                 paddingVertical: 10,
@@ -146,19 +151,33 @@ const Home: React.FC<props> = ({ navigation }) => {
                                 gap: 5,
                                 marginRight: 10,
                             }}>
-                            <Image source={Cup} />
-                            <Text style={{ color: "white" }}>Cappuchino</Text>
+                            <Ionicons
+                                name="pizza-outline"
+                                size={24}
+                                color={filter === "makanan" ? "white" : "black"}
+                            />
+                            <Text
+                                style={{
+                                    color:
+                                        filter === "makanan"
+                                            ? "white"
+                                            : "black",
+                                }}>
+                                Makanan
+                            </Text>
                         </TouchableOpacity>
 
                         {/* End Menu */}
 
                         {/* Menu */}
                         <TouchableOpacity
+                            onPress={() => setFilter("minuman")}
                             activeOpacity={0.8}
                             style={{
                                 justifyContent: "center",
                                 flexDirection: "row",
-                                backgroundColor: "white",
+                                backgroundColor:
+                                    filter === "minuman" ? "#2f823a" : "white",
                                 alignItems: "center",
                                 paddingHorizontal: 10,
                                 paddingVertical: 10,
@@ -169,55 +188,23 @@ const Home: React.FC<props> = ({ navigation }) => {
                                 elevation: 1.5,
                                 shadowColor: "black",
                             }}>
-                            <Image source={Cup2} />
-                            <Text style={{ color: "black" }}>Arabbica</Text>
+                            <SimpleLineIcons
+                                name="cup"
+                                size={23}
+                                color={filter === "minuman" ? "white" : "black"}
+                            />
+                            <Text
+                                style={{
+                                    color:
+                                        filter === "minuman"
+                                            ? "white"
+                                            : "black",
+                                }}>
+                                Minuman
+                            </Text>
                         </TouchableOpacity>
                         {/* End menu */}
-
-                        {/* Menu */}
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={{
-                                justifyContent: "center",
-                                flexDirection: "row",
-                                backgroundColor: "white",
-                                alignItems: "center",
-                                paddingHorizontal: 10,
-                                paddingVertical: 10,
-                                borderRadius: 30,
-                                gap: 5,
-                                marginRight: 10,
-                                marginVertical: 5,
-                                elevation: 1.5,
-                                shadowColor: "black",
-                            }}>
-                            <Image source={Cup2} />
-                            <Text style={{ color: "black" }}>Mochacino</Text>
-                        </TouchableOpacity>
-                        {/* End menu */}
-
-                        {/* Menu */}
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            style={{
-                                justifyContent: "center",
-                                flexDirection: "row",
-                                backgroundColor: "white",
-                                alignItems: "center",
-                                paddingHorizontal: 10,
-                                paddingVertical: 10,
-                                borderRadius: 30,
-                                gap: 5,
-                                marginRight: 10,
-                                marginVertical: 5,
-                                elevation: 1.5,
-                                shadowColor: "black",
-                            }}>
-                            <Image source={Cup2} />
-                            <Text style={{ color: "black" }}>Espresso</Text>
-                        </TouchableOpacity>
-                        {/* End menu */}
-                    </ScrollView>
+                    </View>
                 </View>
                 {/* End Categories */}
 
