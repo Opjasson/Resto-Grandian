@@ -11,6 +11,7 @@ interface props {
     onPress3: () => void;
     onPress4: () => void;
     onPress5: () => void;
+    onPress6: () => void;
     toggleOpen: () => void;
     status?: boolean;
 }
@@ -22,6 +23,7 @@ const DrawerContent: React.FC<props> = ({
     onPress3,
     onPress4,
     onPress5,
+    onPress6,
     status,
 }) => {
     return (
@@ -44,7 +46,7 @@ const DrawerContent: React.FC<props> = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={onPress1}
+                    onPress={onPress2}
                     style={{
                         flexDirection: "row",
                         borderBottomWidth: 2,
@@ -55,7 +57,7 @@ const DrawerContent: React.FC<props> = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={onPress2}
+                    onPress={onPress3}
                     style={{
                         flexDirection: "row",
                         borderBottomWidth: 2,
@@ -67,7 +69,7 @@ const DrawerContent: React.FC<props> = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={onPress3}
+                    onPress={onPress5}
                     style={{
                         flexDirection: "row",
                         borderBottomWidth: 2,
@@ -83,7 +85,7 @@ const DrawerContent: React.FC<props> = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={onPress5}
+                    onPress={onPress6}
                     style={{
                         flexDirection: "row",
                         borderBottomWidth: 2,

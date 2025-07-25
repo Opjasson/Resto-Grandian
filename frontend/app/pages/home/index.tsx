@@ -44,12 +44,12 @@ const Home: React.FC<props> = ({ navigation }) => {
         return (
             <DrawerContent
                 toggleOpen={toggleOpen}
-                onPress1={() => navigation.navigate("kasir")}
-                onPress2={() => navigation.navigate("manage-barang")}
-                status= {status}
+                onPress1={() => navigation.navigate("KelolaProduct")}
+                onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("history-transaksi")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("laporan")}
             />
         );
     };
@@ -65,7 +65,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                         justifyContent: "space-between",
                         alignItems: "center",
                     }}>
-                        
+
                     <Ionicons
                         name="menu"
                         size={30}
