@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
+import { NavigationProp } from '@react-navigation/native';
 
+interface props {
+    navigation : NavigationProp<any, any>
+}
 
-const DetailProduct = () => {
+const DetailProduct : React.FC<props> = ({navigation}) => {
     const [cupSize, setCupSize] = useState("Small");
     const [sugarLevel, setSugarLevel] = useState("No Sugar");
-    
+
     const renderOption = (options, selected, setSelected, style) => {
         return options.map((option) => (
             <TouchableOpacity
@@ -34,7 +38,7 @@ const DetailProduct = () => {
                   }}
                   style={styles.image}
               />
-              <TouchableOpacity style={styles.backButton}>
+              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Home")}>
                   <AntDesign name="arrowleft" size={24} color="#fff" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.heartButton}>

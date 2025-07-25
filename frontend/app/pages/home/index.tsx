@@ -19,8 +19,13 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 
-const index = () => {
+interface props {
+    navigation : NavigationProp<any, any>
+}
+
+const Home : React.FC<props> = ({navigation}) => {
     return (
         <View style={{ flex: 1, backgroundColor: "#FBFBFB" }}>
             <ScrollView>
@@ -193,7 +198,7 @@ const index = () => {
                         {/* Product */}
 
                         <TouchableOpacity
-                            onPress={}
+                            onPress={() => navigation.navigate("DetailProduct")}
                             activeOpacity={0.7}
                             style={{
                                 backgroundColor: "white",
@@ -684,4 +689,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default Home;

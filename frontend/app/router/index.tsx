@@ -12,28 +12,31 @@ const Tab = createBottomTabNavigator();
 
 
 
-const MainApp = () => {
-  return (
-      <Tab.Navigator
-          screenOptions={{ headerShown: false }}
-          tabBar={(props) => <ButtonTabs {...props} />}>
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Favorite" component={Favorite} />
-          <Tab.Screen name="Cart" component={Cart} />
-          <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
-  );
-}
+// const MainApp = () => {
+//   return (
+//       <Tab.Navigator
+//           screenOptions={{ headerShown: false }}
+//           tabBar={(props) => <ButtonTabs {...props} />}>
+//           <Tab.Screen name="Home" component={Home} />
+//           <Tab.Screen name="Favorite" component={Favorite} />
+//           <Tab.Screen name="Cart" component={Cart} />
+//           <Tab.Screen name="Profile" component={Profile} />
+//       </Tab.Navigator>
+//   );
+// }
 
 
 
 const Router = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown : false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="SplashScreen" component={SplashScreen} />
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Favorite" component={Favorite} />
+            <Stack.Screen name="Cart" component={Cart} />
+            <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="DetailProduct" component={DetailProduct} />
-            <Stack.Screen name="MainApp" component={MainApp} />
+            {/* <Stack.Screen name="MainApp" component={MainApp} /> */}
         </Stack.Navigator>
     );
 };

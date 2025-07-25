@@ -35,7 +35,7 @@ const index: React.FC<Props> = ({navigation}) => {
                     </Text>
                 </View>
 
-                <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('MainApp')} style={styles.button}>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Home')} style={styles.button}>
                     <Text style={{ fontSize: 20, color : "#fff", fontWeight : "bold" }}>Get started</Text>
                 </TouchableOpacity>
             </ImageBackground>
