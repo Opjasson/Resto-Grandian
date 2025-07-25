@@ -10,7 +10,7 @@ import {
     Add,
     HeartOff,
 } from "../../inventory/icons";
-import React from "react";
+import React, { useState } from "react";
 import {
     Image,
     ScrollView,
@@ -20,12 +20,38 @@ import {
     View,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
+import { DrawerContent } from "@/app/components";
+import MenuDrawer from "react-native-side-drawer";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 interface props {
-    navigation : NavigationProp<any, any>
+    navigation: NavigationProp<any, any>;
 }
 
-const Home : React.FC<props> = ({navigation}) => {
+const Home: React.FC<props> = ({ navigation }) => {
+    const [open, setOpen] = useState(false);
+
+    const toggleOpen = () => {
+        if (open === false) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
+
+    const sideBarContent = () => {
+        return (
+            <DrawerContent
+                toggleOpen={toggleOpen}
+                onPress1={() => navigation.navigate("kasir")}
+                onPress2={() => navigation.navigate("manage-barang")}
+                onPress3={() => navigation.navigate("history-transaksi")}
+                onPress4={() => navigation.navigate("login")}
+                onPress5={() => navigation.navigate("laporan")}
+            />
+        );
+    };
     return (
         <View style={{ flex: 1, backgroundColor: "#FBFBFB" }}>
             <ScrollView>
@@ -38,9 +64,12 @@ const Home : React.FC<props> = ({navigation}) => {
                         justifyContent: "space-between",
                         alignItems: "center",
                     }}>
-                    <TouchableOpacity activeOpacity={0.7}>
-                        <Image source={photo} />
-                    </TouchableOpacity>
+                    <Ionicons
+                        name="menu"
+                        size={30}
+                        color="black"
+                        onPress={() => toggleOpen()}
+                    />
 
                     <View
                         style={{ flexDirection: "row", alignItems: "center" }}>
@@ -55,7 +84,7 @@ const Home : React.FC<props> = ({navigation}) => {
                         </Text>
                     </View>
                     <TouchableOpacity activeOpacity={0.7}>
-                        <Image source={Notification} />
+                        <Image source={photo} />
                     </TouchableOpacity>
                 </View>
                 {/* End top menu */}
@@ -685,6 +714,15 @@ const Home : React.FC<props> = ({navigation}) => {
                 </View>
                 {/* End Special Offer */}
             </ScrollView>
+
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={sideBarContent()}
+                drawerPercentage={70}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
         </View>
     );
 };
