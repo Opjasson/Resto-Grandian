@@ -56,7 +56,7 @@ const Home: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View style={{ flex: 1, backgroundColor: "#FBFBFB" }}>
+        <View style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20 }}>
             <ScrollView>
                 {/* Top menu */}
                 <View
@@ -298,7 +298,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                
                             </View>
 
                             <View
@@ -346,7 +345,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                
                             </View>
 
                             <View
@@ -365,10 +363,24 @@ const Home: React.FC<props> = ({ navigation }) => {
                 {/* End Product */}
 
                 {/* Special offer */}
-                <View style={{ marginTop: 20, marginHorizontal: "auto" }}>
+                <View
+                    style={{
+                        marginTop: 20,
+                        width: "88%",
+                        marginHorizontal: "auto",
+                        borderRadius: 10,
+                        backgroundColor: "#FAF7F3",
+                    }}>
                     {/* Product */}
-                    <Text style={{ fontWeight: "500" }}>Special Offer</Text>
-                    <View style={{ flexDirection: "row" }}>
+                    <Text style={{ fontWeight: "500", padding: 10 }}>
+                        Special Offer
+                    </Text>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            flexWrap: "wrap",
+                            justifyContent: "center",
+                        }}>
                         <TouchableOpacity
                             activeOpacity={0.7}
                             style={{
@@ -404,7 +416,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                
                             </View>
 
                             <View
@@ -452,61 +463,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={Heart} />
-                                </TouchableOpacity>
-                            </View>
-
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                }}>
-                                <Text>Rp50.000</Text>
-                                <Image source={Add} />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: "row" }}>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={{
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                paddingHorizontal: 5,
-                                paddingVertical: 5,
-                                elevation: 5,
-                                shadowColor: "black",
-                                marginRight: 8,
-                                margin: 8,
-                            }}>
-                            <Image
-                                source={coffe}
-                                style={{ width: 144, borderRadius: 20 }}
-                            />
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    marginTop: 10,
-                                }}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontWeight: "500",
-                                            fontSize: 14,
-                                        }}>
-                                        Cappuchino
-                                    </Text>
-                                    <Text
-                                        style={{ marginTop: 5, fontSize: 10 }}>
-                                        With Sugar
-                                    </Text>
-                                </View>
-                                
                             </View>
 
                             <View
@@ -554,65 +510,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={Heart} />
-                                </TouchableOpacity>
-                            </View>
-
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                }}>
-                                <Text>Rp50.000</Text>
-                                <Image source={Add} />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: "row" }}>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={{
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                paddingHorizontal: 5,
-                                paddingVertical: 5,
-                                elevation: 5,
-                                shadowColor: "black",
-                                marginRight: 8,
-                                margin: 8,
-                            }}>
-                            <Image
-                                source={coffe}
-                                style={{ width: 144, borderRadius: 20 }}
-                            />
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    marginTop: 10,
-                                }}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontWeight: "500",
-                                            fontSize: 14,
-                                        }}>
-                                        Cappuchino
-                                    </Text>
-                                    <Text
-                                        style={{ marginTop: 5, fontSize: 10 }}>
-                                        With Sugar
-                                    </Text>
-                                </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
                             </View>
 
                             <View
@@ -660,11 +557,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={Heart} />
-                                </TouchableOpacity>
                             </View>
 
                             <View
@@ -678,6 +570,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                             </View>
                         </TouchableOpacity>
                     </View>
+
                     {/* End Product */}
                 </View>
                 {/* End Special Offer */}
