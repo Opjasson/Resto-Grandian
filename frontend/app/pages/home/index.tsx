@@ -97,7 +97,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                 {/* End top menu */}
                 <View style={{ marginHorizontal: 30, marginTop: 15 }}>
                     <Text style={{ fontWeight: "500", fontSize: 14 }}>
-                        Good Morning, Ugie fristina
+                        Good Morning, My Friends
                     </Text>
                 </View>
                 {/* Search tab */}
