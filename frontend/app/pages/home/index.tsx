@@ -251,11 +251,6 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
                             </View>
 
                             <View
@@ -303,11 +298,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
+                                
                             </View>
 
                             <View
@@ -355,11 +346,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
+                                
                             </View>
 
                             <View
@@ -417,11 +404,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
+                                
                             </View>
 
                             <View
@@ -523,11 +506,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                                         With Sugar
                                     </Text>
                                 </View>
-                                <TouchableOpacity
-                                    activeOpacity={0.7}
-                                    style={{ marginTop: 5 }}>
-                                    <Image source={HeartOff} />
-                                </TouchableOpacity>
+                                
                             </View>
 
                             <View

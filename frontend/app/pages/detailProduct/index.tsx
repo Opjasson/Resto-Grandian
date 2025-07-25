@@ -8,25 +8,6 @@ interface props {
 }
 
 const DetailProduct : React.FC<props> = ({navigation}) => {
-    const [cupSize, setCupSize] = useState("Small");
-    const [sugarLevel, setSugarLevel] = useState("No Sugar");
-
-    const renderOption = (options, selected, setSelected, style) => {
-        return options.map((option) => (
-            <TouchableOpacity
-                key={option}
-                style={[styles.optionButton, selected === option && style]}
-                onPress={() => setSelected(option)}>
-                <Text
-                    style={[
-                        styles.optionText,
-                        selected === option && styles.selectedText,
-                    ]}>
-                    {option}
-                </Text>
-            </TouchableOpacity>
-        ));
-    };
 
   return (
       <ScrollView style={styles.container}>
@@ -41,9 +22,7 @@ const DetailProduct : React.FC<props> = ({navigation}) => {
               <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Home")}>
                   <AntDesign name="arrowleft" size={24} color="#fff" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.heartButton}>
-                  <AntDesign name="hearto" size={24} color="#fff" />
-              </TouchableOpacity>
+              
           </View>
 
           {/* Content */}
@@ -53,31 +32,8 @@ const DetailProduct : React.FC<props> = ({navigation}) => {
                       <Text style={styles.title}>Cappuccino</Text>
                       <Text style={styles.subtitle}>With Sugar</Text>
                   </View>
-                  <View style={styles.rating}>
-                      <FontAwesome name="star" size={14} color="#fff" />
-                      <Text style={styles.ratingText}>4.8</Text>
-                  </View>
               </View>
 
-              <Text style={styles.sectionTitle}>Cup Size</Text>
-              <View style={styles.optionRow}>
-                  {renderOption(
-                      ["Small", "Medium", "Large"],
-                      cupSize,
-                      setCupSize,
-                      styles.selectedOption
-                  )}
-              </View>
-
-              <Text style={styles.sectionTitle}>Level Sugar</Text>
-              <View style={styles.optionRow}>
-                  {renderOption(
-                      ["No Sugar", "Low", "Medium"],
-                      sugarLevel,
-                      setSugarLevel,
-                      styles.selectedSugar
-                  )}
-              </View>
 
               <Text style={styles.sectionTitle}>About</Text>
               <Text style={styles.aboutText}>
@@ -148,6 +104,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         color: "#222",
+        borderBottomWidth: 2,
+        borderColor: "#C4963A",
     },
     optionRow: {
         flexDirection: "row",
