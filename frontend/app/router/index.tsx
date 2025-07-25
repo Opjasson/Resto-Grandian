@@ -30,7 +30,7 @@ const Tab = createBottomTabNavigator();
 const Router = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="SplashScreen" component={SplashScreen} />
+            {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Favorite" component={Favorite} />
             <Stack.Screen name="Cart" component={Cart} />
