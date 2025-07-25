@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -12,6 +12,8 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { GopayLogo } from "@/app/inventory/icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { DrawerContent } from "@/app/components";
+import MenuDrawer from "react-native-side-drawer";
 
 const CartItem = () => (
     <View style={styles.card}>
@@ -47,10 +49,55 @@ const CartItem = () => (
     </View>
 );
 
-const Cart = () => {
+interface props {
+    navigation: NavigationProp<any, any>;
+}
+
+const Cart: React.FC<props> = ({ navigation }) => {
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(true);
+
+    const toggleOpen = () => {
+        if (open === false) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
+
+    const sideBarContent = () => {
+        return (
+            <DrawerContent
+                toggleOpen={toggleOpen}
+                onPress1={() => navigation.navigate("Cart")}
+                onPress2={() => navigation.navigate("Home")}
+                onPress3={() => navigation.navigate("HistoryPesanan")}
+                onPress4={() => navigation.navigate("login")}
+                onPress5={() => navigation.navigate("KelolaProduct")}
+                onPress6={() => navigation.navigate("laporan")}
+            />
+        );
+    };
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.cartTitle}>Cart</Text>
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginTop: 30,
+                    marginBottom: 20,
+                    gap: 10,
+                    alignItems: "center",
+                }}>
+                <Ionicons
+                    name="menu"
+                    size={30}
+                    color="black"
+                    onPress={() => toggleOpen()}
+                />
+                <Text style={{ fontWeight: "500", fontSize: 20 }}>
+                    Keranjang Belanja
+                </Text>
+            </View>
 
             <CartItem />
             <CartItem />
@@ -87,6 +134,14 @@ const Cart = () => {
             <TouchableOpacity style={styles.buyButton}>
                 <Text style={styles.buyText}>Buy</Text>
             </TouchableOpacity>
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={sideBarContent()}
+                drawerPercentage={70}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
         </ScrollView>
     );
 };
@@ -101,7 +156,7 @@ const styles = StyleSheet.create({
         color: "black",
     },
     container: {
-        padding: 20,
+        paddingHorizontal: 20,
         backgroundColor: "#fff",
         flex: 1,
     },
