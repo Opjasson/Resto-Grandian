@@ -14,25 +14,25 @@ import MenuDrawer from "react-native-side-drawer";
 const data = [
     {
         id: "1",
-        date: "01.01.2000",
-        title: "Материалы",
-        location: "ЖК Восток",
+        date: "01-01-2000",
+        title: "Robi",
+        location: "088hsbx",
         names: ["Василий Упкин", "Евгений Петров"],
         price: "158 000",
     },
     {
         id: "2",
-        date: "01.01.2000",
-        title: "Отделочные работы",
-        location: "ЖК Восток",
+        date: "01-01-2000",
+        title: "Dalban",
+        location: "088hsbx",
         names: ["Евгений Петров", "Михаил Гончаров"],
         price: "78 600",
     },
     {
         id: "3",
-        date: "01.01.2000",
-        title: "Отделочные работы",
-        location: "ЖК Восток",
+        date: "01-01-2000",
+        title: "Albert",
+        location: "088hsbx",
         names: ["Евгений Петров", "Михаил Гончаров"],
         price: "78 600",
     },
@@ -43,24 +43,24 @@ const Card = ({ item }) => (
         <View style={styles.rowBetween}>
             <Text style={styles.date}>{item.date}</Text>
             <Text style={styles.type}>
-                Тип <AntDesign name="checkcircle" size={16} color="green" />
+                Status <AntDesign name="checkcircle" size={16} color="green" />
             </Text>
         </View>
         <View style={styles.titleRow}>
             <View style={styles.verticalLine} />
             <View style={styles.content}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.location}>{item.location}</Text>
+                <Text style={styles.title}>Pelanggan : {item.title}</Text>
+                <Text style={styles.location}>Id Pesanan : {item.location}</Text>
                 {item.names.map((name, idx) => (
                     <Text key={idx} style={styles.name}>
-                        {name}
+                        {name} x 2
                     </Text>
                 ))}
             </View>
         </View>
         <View style={styles.rowBetween}>
             <TouchableOpacity>
-                <Text style={styles.showLess}>Показать меньше</Text>
+                <Text style={styles.showLess}>Total Nominal :</Text>
             </TouchableOpacity>
             <Text style={styles.price}>{item.price}</Text>
         </View>
@@ -123,9 +123,6 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                 renderItem={({ item }) => <Card item={item} />}
                 keyExtractor={(item) => item.id}
             />
-            <TouchableOpacity style={styles.fab}>
-                <AntDesign name="plus" size={30} color="#fff" />
-            </TouchableOpacity>
 
             <MenuDrawer
                 open={open}
