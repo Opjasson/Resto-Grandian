@@ -103,6 +103,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                         justifyContent: "center",
                     }}>
                     <TouchableOpacity
+                    onPress={() => navigation.navigate("UbahProduct")}
                         activeOpacity={0.7}
                         style={{
                             backgroundColor: "white",
