@@ -78,7 +78,7 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                 "Content-Type": "application/json",
             },
         });
-        navigation.navigate("Login" as never);
+        navigation.navigate("LoginPage" as never);
     };
 
     getAkunLoggin();
@@ -117,7 +117,7 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
                 status={user === "kasir" ? false : true}
-                onPress4={() => navigation.navigate("LoginPage")}
+                onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
             />
