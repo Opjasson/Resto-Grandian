@@ -6,7 +6,7 @@ import user_Route from "./routes/userRoute.js"
 import auth_Route from "./routes/authRoute.js"
 import dotenv from "dotenv";
 import cors from "cors";
-import transaksi from "./models/user.js";
+import transaksi from "./models/loginModel.js";
 
 // (async() => {
 //     await transaksi.sync()
