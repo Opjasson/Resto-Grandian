@@ -40,9 +40,9 @@ const product = db.define("product", {
     },
     promo: {
         type: STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
-            notEmpty: true,
+            notEmpty: false,
         },
     },
 });

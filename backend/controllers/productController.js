@@ -2,7 +2,7 @@
 import product from "../models/productModel.js";
 
 export const createproduct = async (req, res) => {
-    const { nama_product, deskripsi ,harga_product, img_product, kategori_product } = req.body;
+    const { nama_product, deskripsi ,harga_product, img_product, kategori_product, promo } = req.body;
 
     try {
         await product.create({
@@ -11,6 +11,7 @@ export const createproduct = async (req, res) => {
             harga_product,
             img_product,
             kategori_product,
+            promo
         });
         res.status(200).json({ msg: "product berhasil ditambahkan!" });
     } catch (error) {
@@ -27,6 +28,7 @@ export const getproduct = async (req, res) => {
                 "harga_product",
                 "img_product",
                 "kategori_product",
+                "promo"
             ],
         });
         res.status(200).json(response);
