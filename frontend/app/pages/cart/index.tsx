@@ -14,6 +14,7 @@ import { GopayLogo } from "@/app/inventory/icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
+import { NavigationProp } from "@react-navigation/native";
 
 const CartItem = () => (
     <View style={styles.card}>
