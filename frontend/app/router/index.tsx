@@ -22,12 +22,12 @@ const Router = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
+            <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="KelolaProduct" component={KelolaProduct} />
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="DetailProduct" component={DetailProduct} />
-            <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen
                 options={{
                     headerShown: true,
