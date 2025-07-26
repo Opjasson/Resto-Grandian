@@ -18,6 +18,23 @@ export const createproduct = async (req, res) => {
     }
 };
 
+export const getproduct = async (req, res) => {
+    try {
+        const response = await product.findAll({
+            attributes: [
+                "nama_product",
+                "deskripsi",
+                "harga_product",
+                "img_product",
+                "kategori_product",
+            ],
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
+
 // export const updateproductById = async (req, res) => {
 //     try {
 //         const { nama, harga_jual, harga_beli, stok } = req.body;
@@ -35,17 +52,6 @@ export const createproduct = async (req, res) => {
 //             }
 //         );
 //         res.status(200).json({ msg: "Data berhasil dirubah" });
-//     } catch (error) {
-//         res.status(400).json({ msg: error.message });
-//     }
-// };
-
-// export const getproduct = async (req, res) => {
-//     try {
-//         const response = await product.findAll({
-//             attributes: ["id", "nama", "harga_jual", "harga_beli", "stok"],
-//         });
-//         res.status(200).json(response);
 //     } catch (error) {
 //         res.status(400).json({ msg: error.message });
 //     }
