@@ -1,30 +1,37 @@
 import db from "../config/database.js";
 
-import { INTEGER, Sequelize, STRING } from "sequelize";
+import { INTEGER, Sequelize, STRING, TEXT } from "sequelize";
 
-const barang = db.define("barang", {
-    nama: {
+const product = db.define("product", {
+    nama_product: {
         type: STRING,
         allowNull: false,
         validate: {
             notEmpty: true,
         },
     },
-    harga_jual: {
-        type: INTEGER,
+    kategori_product: {
+        type: STRING,
         allowNull: false,
         validate: {
             notEmpty: true,
         },
     },
-    harga_beli: {
-        type: INTEGER,
+    deskripsi: {
+        type: TEXT,
         allowNull: false,
         validate: {
             notEmpty: true,
         },
     },
-    stok: {
+    img_product: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    harga_product: {
         type: INTEGER,
         allowNull: false,
         validate: {
@@ -33,4 +40,4 @@ const barang = db.define("barang", {
     },
 });
 
-export default barang;
+export default product;
