@@ -33,6 +33,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
     const [filter, setFilter] = useState<string>("makanan");
+    const [search, setSearch] = useState<string>();
     const [products, setProducts] = useState<
         {
             id: number;
@@ -56,8 +57,13 @@ const Home: React.FC<props> = ({ navigation }) => {
         getProducts();
     }, []);
 
-    const cekFilter = products.filter((item) => item.promo !== null);
-    console.log(cekFilter);
+    // menfilter data berdasarkan yang diketian di search
+    const searchProduct = products.filter((item) => {
+        const words = search?.split(" ");
+        return words?.some((word) => item.nama_product.includes(word));
+    });
+
+    console.log(searchProduct);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -143,9 +149,14 @@ const Home: React.FC<props> = ({ navigation }) => {
                             flexDirection: "row",
                             alignItems: "center",
                             gap: 2,
+                            width: "100%",
                         }}>
                         <Image source={Search} />
-                        <TextInput placeholder="Search Coffe ..." />
+                        <TextInput
+                            placeholder="Search..."
+                            style={{ width: "100%" }}
+                            onChangeText={(text) => setSearch(text)}
+                        />
                     </View>
                     <View style={{ justifyContent: "center" }}>
                         <Image source={Filter} />
@@ -240,69 +251,146 @@ const Home: React.FC<props> = ({ navigation }) => {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}>
                         {/* Product */}
-                        {products.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={() =>
-                                    navigation.navigate("DetailProduct")
-                                }
-                                activeOpacity={0.7}
-                                style={{
-                                    backgroundColor: "white",
-                                    borderRadius: 20,
-                                    paddingHorizontal: 5,
-                                    paddingVertical: 5,
-                                    elevation: 5,
-                                    shadowColor: "black",
-                                    marginRight: 8,
-                                    margin: 8,
-                                    width: 155,
-                                }}>
-                                <Image
-                                    src={item?.img_product}
-                                    style={{
-                                        width: 144,
-                                        height: 130,
-                                        borderRadius: 20,
-                                    }}
-                                />
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
-                                        marginTop: 10,
-                                    }}>
-                                    <View>
-                                        <Text
-                                            style={{
-                                                fontWeight: "500",
-                                                fontSize: 14,
-                                            }}>
-                                            {item.nama_product}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                marginTop: 5,
-                                                fontSize: 10,
-                                            }}>
-                                            {item.deskripsi.substring(0, 30)}...
-                                        </Text>
-                                    </View>
-                                </View>
+                        {search.length > 0 && searchProduct.length > 0
+                            ? searchProduct.map((a, index) => (
+                                  <TouchableOpacity
+                                      key={index}
+                                      onPress={() =>
+                                          navigation.navigate("DetailProduct")
+                                      }
+                                      activeOpacity={0.7}
+                                      style={{
+                                          backgroundColor: "white",
+                                          borderRadius: 20,
+                                          paddingHorizontal: 5,
+                                          paddingVertical: 5,
+                                          elevation: 5,
+                                          shadowColor: "black",
+                                          marginRight: 8,
+                                          margin: 8,
+                                          width: 155,
+                                      }}>
+                                      <Image
+                                          src={a?.img_product}
+                                          style={{
+                                              width: 144,
+                                              height: 130,
+                                              borderRadius: 20,
+                                          }}
+                                      />
+                                      <View
+                                          style={{
+                                              flexDirection: "row",
+                                              justifyContent: "space-between",
+                                              marginTop: 10,
+                                          }}>
+                                          <View>
+                                              <Text
+                                                  style={{
+                                                      fontWeight: "500",
+                                                      fontSize: 14,
+                                                  }}>
+                                                  {a.nama_product}
+                                              </Text>
+                                              <Text
+                                                  style={{
+                                                      marginTop: 5,
+                                                      fontSize: 10,
+                                                  }}>
+                                                  {a.deskripsi.substring(0, 30)}
+                                                  ...
+                                              </Text>
+                                          </View>
+                                      </View>
 
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        justifyContent: "space-between",
-                                    }}>
-                                    <Text>
-                                        Rp.{item.harga_product.toLocaleString()}
-                                    </Text>
-                                    <Image source={Add} />
-                                </View>
-                            </TouchableOpacity>
-                        ))}
+                                      <View
+                                          style={{
+                                              flexDirection: "row",
+                                              alignItems: "center",
+                                              justifyContent: "space-between",
+                                          }}>
+                                          <Text>
+                                              Rp.
+                                              {a.harga_product.toLocaleString()}
+                                          </Text>
+                                          <Image source={Add} />
+                                      </View>
+                                  </TouchableOpacity>
+                              ))
+                            : products
+                                  .filter((a) => a.kategori_product === filter)
+                                  .map((item, index) => (
+                                      <TouchableOpacity
+                                          key={index}
+                                          onPress={() =>
+                                              navigation.navigate(
+                                                  "DetailProduct"
+                                              )
+                                          }
+                                          activeOpacity={0.7}
+                                          style={{
+                                              backgroundColor: "white",
+                                              borderRadius: 20,
+                                              paddingHorizontal: 5,
+                                              paddingVertical: 5,
+                                              elevation: 5,
+                                              shadowColor: "black",
+                                              marginRight: 8,
+                                              margin: 8,
+                                              width: 155,
+                                          }}>
+                                          <Image
+                                              src={item?.img_product}
+                                              style={{
+                                                  width: 144,
+                                                  height: 130,
+                                                  borderRadius: 20,
+                                              }}
+                                          />
+                                          <View
+                                              style={{
+                                                  flexDirection: "row",
+                                                  justifyContent:
+                                                      "space-between",
+                                                  marginTop: 10,
+                                              }}>
+                                              <View>
+                                                  <Text
+                                                      style={{
+                                                          fontWeight: "500",
+                                                          fontSize: 14,
+                                                      }}>
+                                                      {item.nama_product}
+                                                  </Text>
+                                                  <Text
+                                                      style={{
+                                                          marginTop: 5,
+                                                          fontSize: 10,
+                                                      }}>
+                                                      {item.deskripsi.substring(
+                                                          0,
+                                                          30
+                                                      )}
+                                                      ...
+                                                  </Text>
+                                              </View>
+                                          </View>
+
+                                          <View
+                                              style={{
+                                                  flexDirection: "row",
+                                                  alignItems: "center",
+                                                  justifyContent:
+                                                      "space-between",
+                                              }}>
+                                              <Text>
+                                                  Rp.
+                                                  {item.harga_product.toLocaleString()}
+                                              </Text>
+                                              <Image source={Add} />
+                                          </View>
+                                      </TouchableOpacity>
+                                  ))}
 
                         {/* End Product */}
                     </ScrollView>
@@ -372,7 +460,8 @@ const Home: React.FC<props> = ({ navigation }) => {
                                                     marginTop: 5,
                                                     fontSize: 10,
                                                 }}>
-                                                {a.deskripsi.substring(0, 35)}...
+                                                {a.deskripsi.substring(0, 35)}
+                                                ...
                                             </Text>
                                         </View>
                                     </View>
