@@ -46,8 +46,18 @@ const Home: React.FC<props> = ({ navigation, route }) => {
             promo: string;
         }[]
     >([]);
+    const [id, setId] = useState<number>();
+    const [idLogin, setIdLogin] = useState<number>();
+    const [user, setUser] = useState<string>();
+
+    const getUserId = async () => {
+        const response = await fetch("http://192.168.220.220:8000/login");
+        const data = await response.json();
+        setIdLogin(Object.values(data)[0]?.id);
+        setId(Object.values(data)[0]?.userId);
+    };
+
     const sendData = route.params?.data;
-    console.log(sendData);
 
     const getProducts = async () => {
         const response = await fetch("http://192.168.239.220:5000/product");
@@ -60,13 +70,15 @@ const Home: React.FC<props> = ({ navigation, route }) => {
         getProducts();
     }, []);
 
+    const loginData = async () => {
+
+    };
+
     // menfilter data berdasarkan yang diketian di search
     const searchProduct = products.filter((item) => {
         const words = search?.split(" ");
         return words?.some((word) => item.nama_product.includes(word));
     });
-
-    console.log(searchProduct);
 
     const toggleOpen = () => {
         if (open === false) {
