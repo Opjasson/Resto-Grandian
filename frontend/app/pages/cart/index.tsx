@@ -32,13 +32,6 @@ const CartItem = () => (
                 <Text style={styles.price}>Rp 50.000</Text>
             </View>
 
-            <Text style={styles.detailText}>
-                Cap Size: <Text style={styles.boldText}>Small</Text>
-            </Text>
-            <Text style={styles.detailText}>
-                Level Sugar: <Text style={styles.boldText}>No Sugar</Text>
-            </Text>
-
             <View style={styles.quantityRow}>
                 <Text style={styles.quantity}>2</Text>
 
@@ -109,6 +102,13 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
             {/* Summary */}
             <View style={styles.summary}>
+                <TextInput
+                    style={styles.textArea}
+                    placeholder="Catatan Tambahan"
+                    // onChangeText={(text) => setDeskripsi(text)}
+                    multiline={true}
+                    numberOfLines={4}
+                />
                 <View style={styles.summaryRow}>
                     <Text style={styles.totalLabel}>Total</Text>
                     <Text style={styles.totalLabel}>Rp 75.000</Text>
@@ -144,6 +144,15 @@ const Cart: React.FC<props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    textArea: {
+        width: "100%",
+        height: 100,
+        borderColor: "gray",
+        borderWidth: 1,
+        padding: 10,
+        fontSize: 16,
+        borderRadius: 10
+    },
     button: {
         backgroundColor: "#F3E9DC",
         width: "50%",
