@@ -1,6 +1,6 @@
 import express from "express";
 import product_Route from "./routes/productRoute.js";
-// import transaksi_Route from "./routes/transaksiRoute.js"
+import transaksi_Route from "./routes/transaksiRoute.js"
 import cart_Route from "./routes/keranjangRoute.js"
 import user_Route from "./routes/userRoute.js"
 import auth_Route from "./routes/authRoute.js"
@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use(user_Route)
 app.use(product_Route);
-// app.use(transaksi_Route)
+app.use(transaksi_Route)
 app.use(cart_Route)
 app.use(auth_Route)
 
