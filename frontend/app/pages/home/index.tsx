@@ -10,7 +10,7 @@ import {
     Add,
     HeartOff,
 } from "../../inventory/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
     ScrollView,
@@ -32,7 +32,28 @@ interface props {
 const Home: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
-    const [filter, setFilter] = useState<string>("makanan")
+    const [filter, setFilter] = useState<string>("makanan");
+    const [products, setProducts] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+        }[]
+    >([]);
+
+    const getProducts = async () => {
+        const response = await fetch("http://192.168.239.220:5000/product");
+        const data = await response.json();
+        setProducts(data);
+        console.log(data);
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, []);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -56,7 +77,8 @@ const Home: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20 }}>
+        <View
+            style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20 }}>
             <ScrollView>
                 {/* Top menu */}
                 <View
@@ -214,149 +236,64 @@ const Home: React.FC<props> = ({ navigation }) => {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}>
                         {/* Product */}
-
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("DetailProduct")}
-                            activeOpacity={0.7}
-                            style={{
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                paddingHorizontal: 5,
-                                paddingVertical: 5,
-                                elevation: 5,
-                                shadowColor: "black",
-                                marginRight: 8,
-                                margin: 8,
-                            }}>
-                            <Image
-                                source={coffe}
-                                style={{ width: 144, borderRadius: 20 }}
-                            />
-                            <View
+                        {products.map((item, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() =>
+                                    navigation.navigate("DetailProduct")
+                                }
+                                activeOpacity={0.7}
                                 style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    marginTop: 10,
+                                    backgroundColor: "white",
+                                    borderRadius: 20,
+                                    paddingHorizontal: 5,
+                                    paddingVertical: 5,
+                                    elevation: 5,
+                                    shadowColor: "black",
+                                    marginRight: 8,
+                                    margin: 8,
+                                    width: 155
                                 }}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontWeight: "500",
-                                            fontSize: 14,
-                                        }}>
-                                        Cappuchino
-                                    </Text>
-                                    <Text
-                                        style={{ marginTop: 5, fontSize: 10 }}>
-                                        With Sugar
-                                    </Text>
+                                <Image
+                                    src={item?.img_product}
+                                    style={{ width: 144, height: 130, borderRadius: 20 }}
+                                />
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        marginTop: 10,
+                                    }}>
+                                    <View>
+                                        <Text
+                                            style={{
+                                                fontWeight: "500",
+                                                fontSize: 14,
+                                            }}>
+                                            {item.nama_product}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                marginTop: 5,
+                                                fontSize: 10,
+                                            }}>
+                                            {item.deskripsi.substring(0,30)}...
+                                        </Text>
+                                    </View>
                                 </View>
-                            </View>
 
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                }}>
-                                <Text>Rp50.000</Text>
-                                <Image source={Add} />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={{
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                paddingHorizontal: 5,
-                                paddingVertical: 5,
-                                elevation: 5,
-                                shadowColor: "black",
-                                marginRight: 8,
-                                margin: 8,
-                            }}>
-                            <Image
-                                source={coffe}
-                                style={{ width: 144, borderRadius: 20 }}
-                            />
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    marginTop: 10,
-                                }}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontWeight: "500",
-                                            fontSize: 14,
-                                        }}>
-                                        Cappuchino
-                                    </Text>
-                                    <Text
-                                        style={{ marginTop: 5, fontSize: 10 }}>
-                                        With Sugar
-                                    </Text>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                    }}>
+                                    <Text>Rp.{item.harga_product.toLocaleString()}</Text>
+                                    <Image source={Add} />
                                 </View>
-                            </View>
+                            </TouchableOpacity>
+                        ))}
 
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                }}>
-                                <Text>Rp50.000</Text>
-                                <Image source={Add} />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            style={{
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                paddingHorizontal: 5,
-                                paddingVertical: 5,
-                                elevation: 5,
-                                shadowColor: "black",
-                                marginRight: 8,
-                                margin: 8,
-                            }}>
-                            <Image
-                                source={coffe}
-                                style={{ width: 144, borderRadius: 20 }}
-                            />
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    marginTop: 10,
-                                }}>
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontWeight: "500",
-                                            fontSize: 14,
-                                        }}>
-                                        Cappuchino
-                                    </Text>
-                                    <Text
-                                        style={{ marginTop: 5, fontSize: 10 }}>
-                                        With Sugar
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between",
-                                }}>
-                                <Text>Rp50.000</Text>
-                                <Image source={Add} />
-                            </View>
-                        </TouchableOpacity>
                         {/* End Product */}
                     </ScrollView>
                 </View>
