@@ -1,4 +1,5 @@
 import Users from "../models/user.js";
+import KeranjangModel from "../models/keranjangModel.js"
 import argon2 from "argon2";
 
 export const getUsers = async (req, res) => {
@@ -18,6 +19,11 @@ export const getUserById = async (req, res) => {
             where: {
                 id: req.params.id,
             },
+            include: [
+                {
+                    model : KeranjangModel
+                }
+            ]
         });
         res.status(200).json(response);
     } catch (error) {
