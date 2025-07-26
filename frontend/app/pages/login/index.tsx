@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ScrollView,
     StatusBar,
@@ -18,6 +18,32 @@ const LoginPage: React.FC<props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
+
+    const [data, setData] = useState([]);
+
+    const getUserId = async () => {
+        try {
+            const response = await fetch("http://192.168.239.220:5000/login");
+            const datas = await response.json();
+            setData(datas); // update state
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    };
+
+    // 1. Ambil data saat komponen pertama kali muncul
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    // 2. Pantau perubahan pada `data`
+    useEffect(() => {
+        if (data.length > 0) {
+            navigation.navigate("Home"); // Arahkan ke MainApp jika sudah login
+        }
+    }, [data]);
+
+
 
     const handleLogin = async () => {
         if (email && password) {
