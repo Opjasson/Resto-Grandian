@@ -38,6 +38,13 @@ const product = db.define("product", {
             notEmpty: true,
         },
     },
+    promo: {
+        type: STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
 });
 
 export default product;
