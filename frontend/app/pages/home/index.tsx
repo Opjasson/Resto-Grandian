@@ -49,15 +49,40 @@ const Home: React.FC<props> = ({ navigation, route }) => {
     const [id, setId] = useState<number>();
     const [idLogin, setIdLogin] = useState<number>();
     const [user, setUser] = useState<string>();
+    const [username, setUsername] = useState<string>();
 
+    // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.220.220:8000/login");
+        const response = await fetch("http://192.168.239.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
         setId(Object.values(data)[0]?.userId);
     };
 
-    const sendData = route.params?.data;
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    const getAkunLoggin = async () => {
+        const response = await fetch(`http://192.168.239.220:5000/user/${id}`);
+        const user = await response.json();
+        // console.log("login",user);
+        setUser(user.role);
+        setUsername(user.username);
+    };
+
+    const logOut = async () => {
+        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("Login" as never);
+    };
+
+    getAkunLoggin();
+    // ------------------------
 
     const getProducts = async () => {
         const response = await fetch("http://192.168.239.220:5000/product");
@@ -69,10 +94,6 @@ const Home: React.FC<props> = ({ navigation, route }) => {
     useEffect(() => {
         getProducts();
     }, []);
-
-    const loginData = async () => {
-
-    };
 
     // menfilter data berdasarkan yang diketian di search
     const searchProduct = products.filter((item) => {
@@ -95,8 +116,8 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
-                status={sendData?.role === "kasir" ? true : false}
-                onPress4={() => navigation.navigate("login")}
+                status={user === "kasir" ? false : true}
+                onPress4={() => navigation.navigate("LoginPage")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
             />
@@ -141,7 +162,7 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                 {/* End top menu */}
                 <View style={{ marginHorizontal: 30, marginTop: 15 }}>
                     <Text style={{ fontWeight: "500", fontSize: 14 }}>
-                        Good Morning, {sendData?.username}
+                        Good Morning, {username}
                     </Text>
                 </View>
                 {/* Search tab */}
