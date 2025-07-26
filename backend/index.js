@@ -10,9 +10,9 @@ import transaksi from "./models/productModel.js"
 
 
 
-(async() => {
-    await transaksi.sync()
-})()
+// (async() => {
+//     await transaksi.sync()
+// })()
 
 dotenv.config();
 const app = express();

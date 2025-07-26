@@ -1,26 +1,27 @@
 // import { Sequelize, where } from "sequelize";
-// import barang from "../models/barangModel.js";
+import product from "../models/productModel.js";
 
-// export const createBarang = async (req, res) => {
-//     const { nama, harga_jual, harga_beli, stok } = req.body;
+export const createproduct = async (req, res) => {
+    const { nama_product, deskripsi ,harga_product, img_product, kategori_product } = req.body;
 
-//     try {
-//         await barang.create({
-//             nama,
-//             harga_jual,
-//             harga_beli,
-//             stok,
-//         });
-//         res.status(200).json({ msg: "Barang berhasil ditambahkan1" });
-//     } catch (error) {
-//         res.status(400).json({ msg: error.message });
-//     }
-// };
+    try {
+        await product.create({
+            nama_product,
+            deskripsi,
+            harga_product,
+            img_product,
+            kategori_product,
+        });
+        res.status(200).json({ msg: "product berhasil ditambahkan!" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
 
-// export const updateBarangById = async (req, res) => {
+// export const updateproductById = async (req, res) => {
 //     try {
 //         const { nama, harga_jual, harga_beli, stok } = req.body;
-//         await barang.update(
+//         await product.update(
 //             {
 //                 nama,
 //                 harga_jual,
@@ -39,9 +40,9 @@
 //     }
 // };
 
-// export const getBarang = async (req, res) => {
+// export const getproduct = async (req, res) => {
 //     try {
-//         const response = await barang.findAll({
+//         const response = await product.findAll({
 //             attributes: ["id", "nama", "harga_jual", "harga_beli", "stok"],
 //         });
 //         res.status(200).json(response);
@@ -50,9 +51,9 @@
 //     }
 // };
 
-// export const getBarangById = async (req, res) => {
+// export const getproductById = async (req, res) => {
 //     try {
-//         const response = await barang.findOne({
+//         const response = await product.findOne({
 //             where: {
 //                 id: req.params.id,
 //             },
@@ -66,9 +67,9 @@
 //     }
 // };
 
-// export const deleteBarangById = async (req, res) => {
+// export const deleteproductById = async (req, res) => {
 //     try {
-//         await barang.destroy({
+//         await product.destroy({
 //             where: {
 //                 id: req.params.id,
 //             },
