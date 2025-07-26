@@ -19,7 +19,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -27,9 +27,10 @@ import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 interface props {
     navigation: NavigationProp<any, any>;
+    route: RouteProp<any, any>;
 }
 
-const Home: React.FC<props> = ({ navigation }) => {
+const Home: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
     const [filter, setFilter] = useState<string>("makanan");
@@ -45,6 +46,8 @@ const Home: React.FC<props> = ({ navigation }) => {
             promo: string;
         }[]
     >([]);
+    const sendData = route.params?.data;
+    console.log(sendData);
 
     const getProducts = async () => {
         const response = await fetch("http://192.168.239.220:5000/product");
@@ -80,6 +83,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
+                status={sendData?.role === "kasir" ? true : false}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("laporan")}
@@ -118,18 +122,14 @@ const Home: React.FC<props> = ({ navigation }) => {
                             Tegal, Indonesia
                         </Text>
                     </View>
-                    <TouchableOpacity
-                        activeOpacity={0.7}
-                        onPress={() =>
-                            status ? setStatus(false) : setStatus(true)
-                        }>
+                    <TouchableOpacity activeOpacity={0.7}>
                         <Image source={photo} />
                     </TouchableOpacity>
                 </View>
                 {/* End top menu */}
                 <View style={{ marginHorizontal: 30, marginTop: 15 }}>
                     <Text style={{ fontWeight: "500", fontSize: 14 }}>
-                        Good Morning, My Friends
+                        Good Morning, {sendData?.username}
                     </Text>
                 </View>
                 {/* Search tab */}
@@ -251,7 +251,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}>
                         {/* Product */}
-                        {search?.length > 0  && searchProduct.length > 0
+                        {search?.length > 0 && searchProduct.length > 0
                             ? searchProduct.map((a, index) => (
                                   <TouchableOpacity
                                       key={index}
