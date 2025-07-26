@@ -251,7 +251,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}>
                         {/* Product */}
-                        {search.length > 0 && searchProduct.length > 0
+                        {search?.length > 0  && searchProduct.length > 0
                             ? searchProduct.map((a, index) => (
                                   <TouchableOpacity
                                       key={index}
