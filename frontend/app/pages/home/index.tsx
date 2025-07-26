@@ -27,12 +27,10 @@ import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 interface props {
     navigation: NavigationProp<any, any>;
-    route: RouteProp<any, any>;
 }
 
-const Home: React.FC<props> = ({ navigation, route }) => {
+const Home: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState(true);
     const [filter, setFilter] = useState<string>("makanan");
     const [search, setSearch] = useState<string>();
     const [products, setProducts] = useState<
@@ -289,7 +287,9 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                                   <TouchableOpacity
                                       key={index}
                                       onPress={() =>
-                                          navigation.navigate("DetailProduct")
+                                          navigation.navigate("DetailProduct", {
+                                              data: a,
+                                          })
                                       }
                                       activeOpacity={0.7}
                                       style={{
@@ -357,7 +357,10 @@ const Home: React.FC<props> = ({ navigation, route }) => {
                                           key={index}
                                           onPress={() =>
                                               navigation.navigate(
-                                                  "DetailProduct"
+                                                  "DetailProduct",
+                                                  {
+                                                      data: item,
+                                                  }
                                               )
                                           }
                                           activeOpacity={0.7}

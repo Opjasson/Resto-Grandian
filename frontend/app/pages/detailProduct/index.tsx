@@ -1,57 +1,64 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
-import { NavigationProp } from '@react-navigation/native';
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+} from "react-native";
+import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 interface props {
-    navigation : NavigationProp<any, any>
+    navigation: NavigationProp<any, any>;
+    route: RouteProp<any, any>;
 }
 
-const DetailProduct : React.FC<props> = ({navigation}) => {
+const DetailProduct: React.FC<props> = ({ navigation, route }) => {
+    const sendData = route.params?.data;
+    console.log(sendData);
+    
+    return (
+        <ScrollView style={styles.container}>
+            {/* Header Image */}
+            <View style={styles.imageContainer}>
+                <Image src={sendData.img_product} style={styles.image} />
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => navigation.navigate("Home")}>
+                    <AntDesign name="arrowleft" size={24} color="#fff" />
+                </TouchableOpacity>
+            </View>
 
-  return (
-      <ScrollView style={styles.container}>
-          {/* Header Image */}
-          <View style={styles.imageContainer}>
-              <Image
-                  source={{
-                      uri: "https://images.unsplash.com/photo-1605479258198-352b05dffb6f",
-                  }}
-                  style={styles.image}
-              />
-              <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Home")}>
-                  <AntDesign name="arrowleft" size={24} color="#fff" />
-              </TouchableOpacity>
-              
-          </View>
+            {/* Content */}
+            <View style={styles.content}>
+                <View style={styles.titleRow}>
+                    <View>
+                        <Text style={styles.title}>
+                            {sendData.nama_product}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            {sendData.kategori_product}
+                        </Text>
+                    </View>
+                </View>
 
-          {/* Content */}
-          <View style={styles.content}>
-              <View style={styles.titleRow}>
-                  <View>
-                      <Text style={styles.title}>Cappuccino</Text>
-                      <Text style={styles.subtitle}>With Sugar</Text>
-                  </View>
-              </View>
+                <Text style={styles.sectionTitle}>About</Text>
+                <Text style={styles.aboutText}>
+                    {sendData.deskripsi}
+                </Text>
 
-
-              <Text style={styles.sectionTitle}>About</Text>
-              <Text style={styles.aboutText}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt...
-                  <Text style={{ color: "#1E5128" }}> Read More</Text>
-              </Text>
-
-              <View style={styles.cartRow}>
-                  <TouchableOpacity style={styles.cartButton}>
-                      <Text style={styles.cartText}>Add to cart</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.price}>Rp 50.000</Text>
-              </View>
-          </View>
-      </ScrollView>
-  );
-}
+                <View style={styles.cartRow}>
+                    <TouchableOpacity style={styles.cartButton}>
+                        <Text style={styles.cartText}>Add to cart</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.price}>Rp 50.000</Text>
+                </View>
+            </View>
+        </ScrollView>
+    );
+};
 
 const styles = StyleSheet.create({
     container: { backgroundColor: "#fff", flex: 1 },
@@ -167,4 +174,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DetailProduct
+export default DetailProduct;
