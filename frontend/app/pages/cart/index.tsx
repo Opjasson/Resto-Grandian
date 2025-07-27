@@ -178,12 +178,29 @@ const Cart: React.FC<props> = ({ navigation }) => {
             0
         );
     }, [dataShow]);
-    
-    const buyHandle = async () => {
-        
-    }
 
     // end hitung total -----------------------
+
+    // handle buy button -----------------------
+    const buyHandle = () => {
+        try {
+            dataShow.forEach(async (item: any) => {
+                await fetch(`http://192.168.239.220:5000/cart/${item.id}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        qty: item.qty,
+                    }),
+                });
+            });
+            alert("Berhasil");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    // end handle buy button --------------------
 
     const sideBarContent = () => {
         return (
@@ -240,7 +257,9 @@ const Cart: React.FC<props> = ({ navigation }) => {
                         <View style={styles.quantityRow}>
                             <Text style={styles.quantity}>{item.qty}</Text>
 
-                            <TouchableOpacity style={styles.plusButton} onPress={() => ubahQty(item.id, -1)}>
+                            <TouchableOpacity
+                                style={styles.plusButton}
+                                onPress={() => ubahQty(item.id, -1)}>
                                 <AntDesign
                                     name="minus"
                                     size={18}
@@ -248,7 +267,9 @@ const Cart: React.FC<props> = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.plusButton} onPress={() => ubahQty(item.id, 1)}>
+                            <TouchableOpacity
+                                style={styles.plusButton}
+                                onPress={() => ubahQty(item.id, 1)}>
                                 <AntDesign name="plus" size={18} color="#fff" />
                             </TouchableOpacity>
                         </View>
@@ -286,7 +307,9 @@ const Cart: React.FC<props> = ({ navigation }) => {
             </TouchableOpacity>
 
             {/* Buy Button */}
-            <TouchableOpacity style={styles.buyButton}>
+            <TouchableOpacity
+                style={styles.buyButton}
+                onPress={() => buyHandle()}>
                 <Text style={styles.buyText}>Buy</Text>
             </TouchableOpacity>
             <MenuDrawer
