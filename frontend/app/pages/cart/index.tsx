@@ -15,12 +15,16 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import { NavigationProp } from "@react-navigation/native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import * as ImagePicker from "expo-image-picker";
 
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
 const Cart: React.FC<props> = ({ navigation }) => {
+    const [image, setImage] = useState<string>();
+    const [imgSend, setImgSend] = useState<string>();
     const [id, setId] = useState<number>();
     const [idLogin, setIdLogin] = useState<number>();
     const [user, setUser] = useState<string>();
@@ -66,6 +70,9 @@ const Cart: React.FC<props> = ({ navigation }) => {
         }[]
     >([]);
     const [loading, setLoading] = useState(true); // opsional
+    const [idTransaksi, setIdTransaksi] = useState<number>();
+
+    const [catatan, setCatatan] = useState<string>();
 
     const toggleOpen = () => {
         if (open === false) {
@@ -138,6 +145,8 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
         if (transaksiStatusUser.length === 0) return;
 
+        setIdTransaksi(transaksiStatusUser[0].id);
+
         const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
 
         const hasilKeranjang = transaksiStatusUser[0]?.keranjangs.map(
@@ -181,8 +190,84 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
     // end hitung total -----------------------
 
+    // Handle delete cart ---------------------
+    const handleDeleteCart = async (cartId: number) => {
+        await fetch(`http://192.168.239.220:5000/cart/${cartId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("Home");
+    };
+    // end handle delete cart -------------------
+
+    // handle uplod image --------------------
+    useEffect(() => {
+        (async () => {
+            if (Platform.OS !== "web") {
+                const { status } =
+                    await ImagePicker.requestMediaLibraryPermissionsAsync();
+                if (status !== "granted") {
+                    alert("Permission to access gallery is required!");
+                }
+            }
+        })();
+    }, []);
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            // setImage(result.assets[0].uri);
+            uploadToCloudinary(result.assets[0].uri);
+        }
+    };
+
+    const uploadToCloudinary = async (imageUri) => {
+        const data2 = new FormData();
+
+        // Ekstrak file name dan type dari URI
+        const fileName = imageUri.split("/").pop();
+        const fileType = fileName.split(".").pop();
+
+        data2.append("file", {
+            uri: imageUri,
+            name: fileName,
+            type: `image/${fileType}`,
+        });
+
+        data2.append("upload_preset", "Cloudinary_my_first_time"); // dari cloudinary
+        data2.append("cloud_name", "dqcnnluof");
+
+        try {
+            const res = await fetch(
+                "https://api.cloudinary.com/v1_1/dqcnnluof/image/upload",
+                {
+                    method: "POST",
+                    body: data2,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            const json = await res.json();
+            setImgSend(json.secure_url);
+            console.log("Uploaded URL:", json.secure_url);
+        } catch (error) {
+            console.error("Upload failed:", error);
+        }
+    };
+
+    // end handle uplod image --------------
+
     // handle buy button -----------------------
-    const buyHandle = () => {
+    const buyHandle = async () => {
         try {
             dataShow.forEach(async (item: any) => {
                 await fetch(`http://192.168.239.220:5000/cart/${item.id}`, {
@@ -195,6 +280,21 @@ const Cart: React.FC<props> = ({ navigation }) => {
                     }),
                 });
             });
+
+            await fetch(
+                `http://192.168.239.220:5000/transaksi/${idTransaksi}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        totalHarga: totalHarga,
+                        buktiBayar: imgSend,
+                        catatanTambahan: catatan,
+                    }),
+                }
+            );
             alert("Berhasil");
         } catch (error) {
             console.log(error);
@@ -272,6 +372,15 @@ const Cart: React.FC<props> = ({ navigation }) => {
                                 onPress={() => ubahQty(item.id, 1)}>
                                 <AntDesign name="plus" size={18} color="#fff" />
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={() => handleDeleteCart(item.id)}>
+                                <FontAwesome
+                                    name="trash"
+                                    size={24}
+                                    color="black"
+                                />
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -282,7 +391,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 <TextInput
                     style={styles.textArea}
                     placeholder="Catatan Tambahan"
-                    // onChangeText={(text) => setDeskripsi(text)}
+                    onChangeText={(text) => setCatatan(text)}
                     multiline={true}
                     numberOfLines={4}
                 />
@@ -301,7 +410,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 <Text style={{ alignSelf: "center" }}>: 087895031524</Text>
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => pickImage()}>
                 <Ionicons name="camera-outline" size={24} color="black" />
                 <Text style={{ color: "black" }}>Bukti Pembayaran</Text>
             </TouchableOpacity>
