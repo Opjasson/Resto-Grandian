@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
     View,
     Text,
@@ -32,12 +32,14 @@ const Cart: React.FC<props> = ({ navigation }) => {
             id: number;
             namaPelanggan: string;
             status: boolean;
-            keranjangs: [{
-                id : string;
-                qty : number;
-                productId : number;
-                transaksiId : number;
-            }];
+            keranjangs: [
+                {
+                    id: string;
+                    qty: number;
+                    productId: number;
+                    transaksiId: number;
+                }
+            ];
         }[]
     >([]);
     const [products, setProducts] = useState<
@@ -51,6 +53,19 @@ const Cart: React.FC<props> = ({ navigation }) => {
             promo: string;
         }[]
     >([]);
+
+    const [dataShow, setDataShow] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+            promo: string;
+        }[]
+    >([]);
+    const [loading, setLoading] = useState(true); // opsional
 
     const toggleOpen = () => {
         if (open === false) {
@@ -95,46 +110,81 @@ const Cart: React.FC<props> = ({ navigation }) => {
     };
 
     getAkunLoggin();
+    // end data login ---------------------
 
-    const getTransaksi = async () => {
-        const response = await fetch("http://192.168.239.220:5000/transaksi");
-        const transaksiS = await response.json();
-        // console.log(transaksiS.response);
-        setDataTransaksi(transaksiS.response);
-    };
+    // data transaksi ----------------------
 
     useEffect(() => {
+        const getTransaksi = async () => {
+            const response = await fetch(
+                "http://192.168.239.220:5000/transaksi"
+            );
+            const transaksiS = await response.json();
+            setDataTransaksi(transaksiS.response);
+            setLoading(false);
+        };
         getTransaksi();
-    }, []);
+    }, []); // hanya sekali saat mount
 
-    const transaksiNamaPelangganUser = dataTransaksi.filter(
-        (item) => item.namaPelanggan === username
-    );
-    const transaksiStatusUser = transaksiNamaPelangganUser.filter(
-        (item) => item.status === null
-    );
+    useEffect(() => {
+        if (dataTransaksi.length === 0) return;
 
-    // console.log(transaksiStatusUser);
+        const transaksiNamaPelangganUser = dataTransaksi.filter(
+            (item) => item.namaPelanggan === username
+        );
+        const transaksiStatusUser = transaksiNamaPelangganUser.filter(
+            (item) => item.status === null
+        );
 
-    // Buat peta agar akses nama_product cepat berdasarkan id
-    const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
+        if (transaksiStatusUser.length === 0) return;
 
-    const hasil = {
-        ...transaksiStatusUser[0],
-        keranjangs: transaksiStatusUser[0]?.keranjangs.map((item) => {
-            const product = productMap[item.productId];
-            return {
-                id: item.id,
-                nama_product: product?.nama_product,
-                img_product: product?.img_product,
-                kategori: product?.kategori_product,
-                harga: product?.harga_product,
-                qty: item.qty,
-            };
-        }),
+        const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
+
+        const hasilKeranjang = transaksiStatusUser[0]?.keranjangs.map(
+            (item) => {
+                const product = productMap[item.productId];
+                return {
+                    id: item.id,
+                    nama_product: product?.nama_product,
+                    img_product: product?.img_product,
+                    kategori: product?.kategori_product,
+                    harga: product?.harga_product,
+                    qty: item.qty,
+                };
+            }
+        );
+
+        setDataShow(hasilKeranjang || []);
+    }, [dataTransaksi, products, username]);
+
+    // end data transaksi ---------------------
+
+    // hitung total harga
+    // Hitung total harga: harga * qty lalu jumlahkan
+    const ubahQty = (id, increment) => {
+        const update = dataShow.map((item) => {
+            if (item.id === id) {
+                const newQty = item.qty + increment;
+                return { ...item, qty: newQty > 0 ? newQty : 1 };
+            }
+            return item;
+        });
+        setDataShow(update);
     };
-    console.log(hasil.keranjangs);
+
+    const totalHarga = useMemo(() => {
+        return dataShow.reduce(
+            (total, item) => total + item.harga * item.qty,
+            0
+        );
+    }, [dataShow]);
     
+    const buyHandle = async () => {
+        
+    }
+
+    // end hitung total -----------------------
+
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -169,27 +219,28 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 </Text>
             </View>
 
-            {hasil.keranjangs?.map((item, index) => (
+            {dataShow.map((item, index) => (
                 <View style={styles.card} key={index}>
-                    <Image
-                        src={item.img_product}
-                        style={styles.image}
-                    />
+                    <Image src={item.img_product} style={styles.image} />
                     <View style={styles.cardContent}>
                         <View style={styles.rowBetween}>
                             <View>
-                                <Text style={styles.productTitle}>{item.nama_product}</Text>
+                                <Text style={styles.productTitle}>
+                                    {item.nama_product}
+                                </Text>
                                 <Text style={styles.productSubtitle}>
                                     {item.kategori}
                                 </Text>
                             </View>
-                            <Text style={styles.price}>Rp {item.harga.toLocaleString()}</Text>
+                            <Text style={styles.price}>
+                                Rp {item.harga.toLocaleString()}
+                            </Text>
                         </View>
 
                         <View style={styles.quantityRow}>
-                            <Text style={styles.quantity}>2</Text>
+                            <Text style={styles.quantity}>{item.qty}</Text>
 
-                            <TouchableOpacity style={styles.plusButton}>
+                            <TouchableOpacity style={styles.plusButton} onPress={() => ubahQty(item.id, -1)}>
                                 <AntDesign
                                     name="minus"
                                     size={18}
@@ -197,7 +248,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={styles.plusButton}>
+                            <TouchableOpacity style={styles.plusButton} onPress={() => ubahQty(item.id, 1)}>
                                 <AntDesign name="plus" size={18} color="#fff" />
                             </TouchableOpacity>
                         </View>
@@ -216,7 +267,9 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 />
                 <View style={styles.summaryRow}>
                     <Text style={styles.totalLabel}>Total</Text>
-                    <Text style={styles.totalLabel}>Rp 75.000</Text>
+                    <Text style={styles.totalLabel}>
+                        Rp {totalHarga?.toLocaleString()}
+                    </Text>
                 </View>
             </View>
 
