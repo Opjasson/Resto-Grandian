@@ -4,7 +4,10 @@ import transaksiModel from "../models/transaksiModel.js";
 
 export const addTransaksi = async (req, res) => {
     try {
-        const response = await transaksiModel.create();
+        const { namaPelanggan } = req.body;
+        const response = await transaksiModel.create({
+            namaPelanggan,
+        });
         res.status(200).json({ response });
     } catch (error) {
         req.status(400).json({ msg: error.message });
@@ -16,7 +19,7 @@ export const getAllTransaksi = async (req, res) => {
         const response = await transaksiModel.findAll({
             include: [
                 {
-                    model: cartModel
+                    model: cartModel,
                 },
             ],
         });
@@ -34,7 +37,7 @@ export const getTransaksiByUuid = async (req, res) => {
             },
             include: [
                 {
-                    model: cartModel
+                    model: cartModel,
                 },
             ],
         });

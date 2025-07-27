@@ -17,8 +17,33 @@ interface props {
 
 const DetailProduct: React.FC<props> = ({ navigation, route }) => {
     const sendData = route.params?.data;
+    const sendTransId = route.params?.idTrans;
+    const sendIdUser = route.params?.idUser;
+
     console.log(sendData);
-    
+    console.log(sendTransId);
+    console.log(sendIdUser);
+
+    const addCart = async () => {
+        try {
+            await fetch(`http://192.168.239.220:5000/cart`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    qty: 1,
+                    productId: sendData.id,
+                    userId: sendIdUser,
+                    transaksiId: sendTransId,
+                }),
+            });
+            navigation.navigate("Cart")
+        } catch (error) {
+            alert("ada error nih");
+        }
+    };
+
     return (
         <ScrollView style={styles.container}>
             {/* Header Image */}
@@ -45,15 +70,15 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
                 </View>
 
                 <Text style={styles.sectionTitle}>About</Text>
-                <Text style={styles.aboutText}>
-                    {sendData.deskripsi}
-                </Text>
+                <Text style={styles.aboutText}>{sendData.deskripsi}</Text>
 
                 <View style={styles.cartRow}>
-                    <TouchableOpacity style={styles.cartButton}>
+                    <TouchableOpacity style={styles.cartButton} onPress={addCart}>
                         <Text style={styles.cartText}>Add to cart</Text>
                     </TouchableOpacity>
-                    <Text style={styles.price}>Rp 50.000</Text>
+                    <Text style={styles.price}>
+                        Rp. {sendData.harga_product.toLocaleString()}
+                    </Text>
                 </View>
             </View>
         </ScrollView>

@@ -24,6 +24,7 @@ import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -48,6 +49,14 @@ const Home: React.FC<props> = ({ navigation }) => {
     const [idLogin, setIdLogin] = useState<number>();
     const [user, setUser] = useState<string>();
     const [username, setUsername] = useState<string>();
+    const [transaksiId, setTransaksiId] = useState<number>();
+    const [dataTransaksi, setDataTransaksi] = useState<
+        {
+            id: number;
+            namaPelanggan: string;
+            status: boolean;
+        }[]
+    >([]);
 
     // Get Data Login --------------------------
     const getUserId = async () => {
@@ -106,6 +115,41 @@ const Home: React.FC<props> = ({ navigation }) => {
             setOpen(false);
         }
     };
+
+    const createTransaksi = async () => {
+        const response = await fetch("http://192.168.239.220:5000/transaksi", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                namaPelanggan: username,
+            }),
+        });
+        const transaksi = await response.json();
+        setTransaksiId(transaksi.response.id);
+        console.log(transaksi.response.id);
+    };
+
+    const getTransaksi = async () => {
+        const response = await fetch("http://192.168.239.220:5000/transaksi");
+        const transaksiS = await response.json();
+        // console.log(transaksiS.response);
+        setDataTransaksi(transaksiS.response);
+    };
+
+    useEffect(() => {
+        getTransaksi();
+    }, []);
+
+    const transaksiNamaPelangganUser = dataTransaksi.filter(
+        (item) => item.namaPelanggan === username
+    );
+    const transaksiStatusUser = transaksiNamaPelangganUser.filter(
+        (item) => item.status === null
+    );
+
+    console.log(transaksiStatusUser);
 
     const sideBarContent = () => {
         return (
@@ -278,6 +322,37 @@ const Home: React.FC<props> = ({ navigation }) => {
 
                 {/* Product */}
                 <View style={{ marginTop: 20, marginLeft: 20 }}>
+                    <Text>{transaksiId}</Text>
+                    {/* button create transaksi */}
+                    <TouchableOpacity
+                        onPress={createTransaksi}
+                        activeOpacity={0.8}
+                        style={{
+                            justifyContent: "center",
+                            flexDirection: "row",
+                            backgroundColor: "blue",
+                            alignItems: "center",
+                            paddingHorizontal: 10,
+                            paddingVertical: 10,
+                            borderRadius: 30,
+                            gap: 5,
+                            marginRight: 10,
+                            width: "40%",
+                        }}>
+                        <FontAwesome6
+                            name="notes-medical"
+                            size={24}
+                            color="white"
+                        />
+                        <Text
+                            style={{
+                                color: "white",
+                            }}>
+                            New Transaksi
+                        </Text>
+                    </TouchableOpacity>
+                    {/* end button transaksi */}
+
                     <ScrollView
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}>
@@ -289,6 +364,9 @@ const Home: React.FC<props> = ({ navigation }) => {
                                       onPress={() =>
                                           navigation.navigate("DetailProduct", {
                                               data: a,
+                                              idTrans:
+                                                  transaksiStatusUser[0].id,
+                                              idUser: id,
                                           })
                                       }
                                       activeOpacity={0.7}
@@ -360,6 +438,10 @@ const Home: React.FC<props> = ({ navigation }) => {
                                                   "DetailProduct",
                                                   {
                                                       data: item,
+                                                      idTrans:
+                                                          transaksiStatusUser[0]
+                                                              .id,
+                                                      idUser: id,
                                                   }
                                               )
                                           }

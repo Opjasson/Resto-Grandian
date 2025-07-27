@@ -23,6 +23,7 @@ export const getproduct = async (req, res) => {
     try {
         const response = await product.findAll({
             attributes: [
+                "id",
                 "nama_product",
                 "deskripsi",
                 "harga_product",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -16,45 +16,41 @@ import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import { NavigationProp } from "@react-navigation/native";
 
-const CartItem = () => (
-    <View style={styles.card}>
-        <Image
-            source={{
-                uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
-            }}
-            style={styles.image}
-        />
-        <View style={styles.cardContent}>
-            <View style={styles.rowBetween}>
-                <View>
-                    <Text style={styles.productTitle}>Coffee</Text>
-                    <Text style={styles.productSubtitle}>With Sugar</Text>
-                </View>
-                <Text style={styles.price}>Rp 50.000</Text>
-            </View>
-
-            <View style={styles.quantityRow}>
-                <Text style={styles.quantity}>2</Text>
-
-                <TouchableOpacity style={styles.plusButton}>
-                    <AntDesign name="minus" size={18} color="#fff" />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.plusButton}>
-                    <AntDesign name="plus" size={18} color="#fff" />
-                </TouchableOpacity>
-            </View>
-        </View>
-    </View>
-);
-
 interface props {
     navigation: NavigationProp<any, any>;
 }
 
 const Cart: React.FC<props> = ({ navigation }) => {
+    const [id, setId] = useState<number>();
+    const [idLogin, setIdLogin] = useState<number>();
+    const [user, setUser] = useState<string>();
+    const [username, setUsername] = useState<string>();
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
+    const [dataTransaksi, setDataTransaksi] = useState<
+        {
+            id: number;
+            namaPelanggan: string;
+            status: boolean;
+            keranjangs: [{
+                id : string;
+                qty : number;
+                productId : number;
+                transaksiId : number;
+            }];
+        }[]
+    >([]);
+    const [products, setProducts] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+            promo: string;
+        }[]
+    >([]);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -64,6 +60,81 @@ const Cart: React.FC<props> = ({ navigation }) => {
         }
     };
 
+    // get product -----------------------
+    const getProducts = async () => {
+        const response = await fetch("http://192.168.239.220:5000/product");
+        const data = await response.json();
+        setProducts(data);
+        console.log("product", data);
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, []);
+
+    // end get product --------------------
+
+    // Get Data Login --------------------------
+    const getUserId = async () => {
+        const response = await fetch("http://192.168.239.220:5000/login");
+        const data = await response.json();
+        setIdLogin(Object.values(data)[0]?.id);
+        setId(Object.values(data)[0]?.userId);
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    const getAkunLoggin = async () => {
+        const response = await fetch(`http://192.168.239.220:5000/user/${id}`);
+        const user = await response.json();
+        // console.log("login",user);
+        setUser(user.role);
+        setUsername(user.username);
+    };
+
+    getAkunLoggin();
+
+    const getTransaksi = async () => {
+        const response = await fetch("http://192.168.239.220:5000/transaksi");
+        const transaksiS = await response.json();
+        // console.log(transaksiS.response);
+        setDataTransaksi(transaksiS.response);
+    };
+
+    useEffect(() => {
+        getTransaksi();
+    }, []);
+
+    const transaksiNamaPelangganUser = dataTransaksi.filter(
+        (item) => item.namaPelanggan === username
+    );
+    const transaksiStatusUser = transaksiNamaPelangganUser.filter(
+        (item) => item.status === null
+    );
+
+    // console.log(transaksiStatusUser);
+
+    // Buat peta agar akses nama_product cepat berdasarkan id
+    const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
+
+    const hasil = {
+        ...transaksiStatusUser[0],
+        keranjangs: transaksiStatusUser[0]?.keranjangs.map((item) => {
+            const product = productMap[item.productId];
+            return {
+                id: item.id,
+                nama_product: product?.nama_product,
+                img_product: product?.img_product,
+                kategori: product?.kategori_product,
+                harga: product?.harga_product,
+                qty: item.qty,
+            };
+        }),
+    };
+    console.log(hasil.keranjangs);
+    
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -98,8 +169,41 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 </Text>
             </View>
 
-            <CartItem />
-            <CartItem />
+            {hasil.keranjangs?.map((item, index) => (
+                <View style={styles.card} key={index}>
+                    <Image
+                        src={item.img_product}
+                        style={styles.image}
+                    />
+                    <View style={styles.cardContent}>
+                        <View style={styles.rowBetween}>
+                            <View>
+                                <Text style={styles.productTitle}>{item.nama_product}</Text>
+                                <Text style={styles.productSubtitle}>
+                                    {item.kategori}
+                                </Text>
+                            </View>
+                            <Text style={styles.price}>Rp {item.harga.toLocaleString()}</Text>
+                        </View>
+
+                        <View style={styles.quantityRow}>
+                            <Text style={styles.quantity}>2</Text>
+
+                            <TouchableOpacity style={styles.plusButton}>
+                                <AntDesign
+                                    name="minus"
+                                    size={18}
+                                    color="#fff"
+                                />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={styles.plusButton}>
+                                <AntDesign name="plus" size={18} color="#fff" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            ))}
 
             {/* Summary */}
             <View style={styles.summary}>
@@ -152,7 +256,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         fontSize: 16,
-        borderRadius: 10
+        borderRadius: 10,
     },
     button: {
         backgroundColor: "#F3E9DC",
