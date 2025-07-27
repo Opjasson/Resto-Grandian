@@ -14,11 +14,9 @@ export const addTransaksi = async (req, res) => {
 export const getAllTransaksi = async (req, res) => {
     try {
         const response = await transaksiModel.findAll({
-            attributes: ["id", "uuid", "totalHarga", "namaPelanggan", "bayarPelanggan","createdAt"],
             include: [
                 {
-                    model: cartModel,
-                    attributes: ["barangId", "transaksiId", "qty"],
+                    model: cartModel
                 },
             ],
         });
@@ -36,8 +34,7 @@ export const getTransaksiByUuid = async (req, res) => {
             },
             include: [
                 {
-                    model: cartModel,
-                    attributes: ["barangId", "transaksiId", "qty"],
+                    model: cartModel
                 },
             ],
         });
@@ -49,12 +46,20 @@ export const getTransaksiByUuid = async (req, res) => {
 
 export const updateTransaksi = async (req, res) => {
     try {
-        const { totalHarga, namaPelanggan, bayarPelanggan } = req.body;
+        const {
+            totalHarga,
+            namaPelanggan,
+            buktiBayar,
+            catatanTambahan,
+            status,
+        } = req.body;
         await transaksiModel.update(
             {
                 totalHarga,
-                bayarPelanggan,
+                buktiBayar,
                 namaPelanggan,
+                catatanTambahan,
+                status,
             },
             {
                 where: {

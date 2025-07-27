@@ -2,12 +2,13 @@ import cartModel from "../models/keranjangModel.js";
 
 export const addCart = async (req, res) => {
     try {
-        const { qty, productId, userId } = req.body;
+        const { qty, productId, userId, transaksiId } = req.body;
 
         await cartModel.create({
             qty,
             productId,
             userId,
+            transaksiId,
         });
         res.status(200).json({ msg: "Data berhasil dibuat!" });
     } catch (error) {
@@ -18,7 +19,13 @@ export const addCart = async (req, res) => {
 export const getCartAll = async (req, res) => {
     try {
         const response = await cartModel.findAll({
-            attributes: ["productId", "qty", "userId", "createdAt"],
+            attributes: [
+                "productId",
+                "qty",
+                "transaksiId",
+                "userId",
+                "createdAt",
+            ],
         });
         res.status(200).json({ response });
     } catch (error) {
