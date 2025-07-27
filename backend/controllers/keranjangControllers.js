@@ -51,3 +51,16 @@ export const updateCartById = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
+
+export const deleteCartById = async (req, res) => {
+    try {
+        await cartModel.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json({ msg: "Data berhasil dihapus!" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
