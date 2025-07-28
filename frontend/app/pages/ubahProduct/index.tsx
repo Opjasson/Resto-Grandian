@@ -111,7 +111,7 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
             body: JSON.stringify({
                 nama_product : nama_product,
                 harga_product : harga_product,
-                kategori : kategori,
+                kategori_product : kategori,
                 img_product : imgSend,
                 deskripsi : deskripsi,
                 promo : promo
