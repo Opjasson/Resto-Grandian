@@ -156,18 +156,31 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
                     )
                     .map((item, index) => (
-                        <TouchableOpacity key={index} style={styles.card}>
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.card}
+                            onPress={() =>
+                                navigation.navigate("DetailTransaksi")
+                            }>
                             <View style={styles.rowBetween}>
                                 <Text style={styles.date}>
                                     {item.createdAt.split("T")[0]}
                                 </Text>
                                 <Text style={styles.type}>
                                     Status{" "}
-                                    <AntDesign
-                                        name="checkcircle"
-                                        size={16}
-                                        color="green"
-                                    />
+                                    {item.status === null ? (
+                                        <AntDesign
+                                            name="checkcircleo"
+                                            size={16}
+                                            color="black"
+                                        />
+                                    ) : (
+                                        <AntDesign
+                                            name="checkcircle"
+                                            size={16}
+                                            color="green"
+                                        />
+                                    )}
                                 </Text>
                             </View>
                             <View style={styles.titleRow}>
@@ -177,7 +190,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                                         Pelanggan : {item.namaPelanggan}
                                     </Text>
                                     <Text style={styles.location}>
-                                        Id Pesanan : {item.uuid}
+                                        Id Pesanan : {item.uuid.slice(0, 8)}
                                     </Text>
                                     {item.keranjangs.map((name, idx) => (
                                         <Text key={idx} style={styles.name}>
