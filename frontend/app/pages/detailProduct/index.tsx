@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -19,30 +19,170 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
     const sendData = route.params?.data;
     const sendTransId = route.params?.idTrans;
     const sendIdUser = route.params?.idUser;
+    const [id, setId] = useState<number>();
+    const [idLogin, setIdLogin] = useState<number>();
+    const [user, setUser] = useState<string>();
+    const [username, setUsername] = useState<string>();
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(true);
+    const [dataTransaksi, setDataTransaksi] = useState<
+        {
+            id: number;
+            namaPelanggan: string;
+            status: boolean;
+            buktiBayar: string;
+            keranjangs: [
+                {
+                    id: string;
+                    qty: number;
+                    productId: number;
+                    transaksiId: number;
+                }
+            ];
+        }[]
+    >([]);
+    const [products, setProducts] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+            promo: string;
+        }[]
+    >([]);
 
-    console.log(sendData);
-    console.log(sendTransId);
-    console.log(sendIdUser);
+    const [dataShow, setDataShow] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+            promo: string;
+            productId: number;
+        }[]
+    >([]);
+    const [loading, setLoading] = useState(true); // opsional
+    const [idTransaksi, setIdTransaksi] = useState<number>();
 
+    // get product -----------------------
+    const getProducts = async () => {
+        const response = await fetch("http://192.168.239.220:5000/product");
+        const data = await response.json();
+        setProducts(data);
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, []);
+
+    // end get product --------------------
+
+    // Get Data Login --------------------------
+    const getUserId = async () => {
+        const response = await fetch("http://192.168.239.220:5000/login");
+        const data = await response.json();
+        setIdLogin(Object.values(data)[0]?.id);
+        setId(Object.values(data)[0]?.userId);
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    const getAkunLoggin = async () => {
+        const response = await fetch(`http://192.168.239.220:5000/user/${id}`);
+        const user = await response.json();
+        // console.log("login",user);
+        setUser(user.role);
+        setUsername(user.username);
+    };
+
+    getAkunLoggin();
+    // end data login ---------------------
+
+    // data transaksi ----------------------
+
+    useEffect(() => {
+        const getTransaksi = async () => {
+            const response = await fetch(
+                "http://192.168.239.220:5000/transaksi"
+            );
+            const transaksiS = await response.json();
+            setDataTransaksi(transaksiS.response);
+            setLoading(false);
+        };
+        getTransaksi();
+    }, []); // hanya sekali saat mount
+
+    useEffect(() => {
+        if (dataTransaksi.length === 0) return;
+
+        const transaksiNamaPelangganUser = dataTransaksi.filter(
+            (item) => item.namaPelanggan === username
+        );
+        const transaksiStatusUser = transaksiNamaPelangganUser.filter(
+            (item) => item.buktiBayar === null
+        );
+
+        if (transaksiStatusUser.length === 0) return;
+
+        setIdTransaksi(transaksiStatusUser[0].id);
+
+        const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
+
+        const hasilKeranjang = transaksiStatusUser[0]?.keranjangs.map(
+            (item) => {
+                const product = productMap[item.productId];
+                return {
+                    id: item.id,
+                    nama_product: product?.nama_product,
+                    img_product: product?.img_product,
+                    kategori: product?.kategori_product,
+                    harga: product?.harga_product,
+                    qty: item.qty,
+                    productId: item.productId,
+                };
+            }
+        );
+
+        setDataShow(hasilKeranjang || []);
+    }, [dataTransaksi, products, username]);
+
+    const findData = dataShow.find(item => item.productId === sendData.id)
+    // console.log("test", dataShow);
+    console.log("dataShow",findData);
+
+    // end data transaksi ---------------------
+
+    // handle add to cart button --------------
     const addCart = async () => {
-        try {
-            await fetch(`http://192.168.239.220:5000/cart`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    qty: 1,
-                    productId: sendData.id,
-                    userId: sendIdUser,
-                    transaksiId: sendTransId,
-                }),
-            });
-            navigation.navigate("Cart")
-        } catch (error) {
-            alert("ada error nih");
+        if (findData) {
+            navigation.navigate("Cart");
+        } else {
+            try {
+                await fetch(`http://192.168.239.220:5000/cart`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        qty: 1,
+                        productId: sendData.id,
+                        userId: sendIdUser,
+                        transaksiId: sendTransId,
+                    }),
+                });
+                navigation.navigate("Cart");
+            } catch (error) {
+                alert("ada error nih");
+            }
         }
     };
+    // end handle add to cart button -----------
 
     return (
         <ScrollView style={styles.container}>
@@ -73,7 +213,9 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
                 <Text style={styles.aboutText}>{sendData.deskripsi}</Text>
 
                 <View style={styles.cartRow}>
-                    <TouchableOpacity style={styles.cartButton} onPress={addCart}>
+                    <TouchableOpacity
+                        style={styles.cartButton}
+                        onPress={addCart}>
                         <Text style={styles.cartText}>Add to cart</Text>
                     </TouchableOpacity>
                     <Text style={styles.price}>

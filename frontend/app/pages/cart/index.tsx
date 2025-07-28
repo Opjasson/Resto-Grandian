@@ -270,7 +270,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
     // handle buy button -----------------------
     const buyHandle = async () => {
-        if (dataShow.length > 0 && imgSend !== null) {
+        if (dataShow.length > 0 && imgSend?.length > 0) {
             try {
                 dataShow.forEach(async (item: any) => {
                     await fetch(`http://192.168.239.220:5000/cart/${item.id}`, {

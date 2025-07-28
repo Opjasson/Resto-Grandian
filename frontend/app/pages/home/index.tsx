@@ -128,8 +128,7 @@ const Home: React.FC<props> = ({ navigation }) => {
             }),
         });
         const transaksi = await response.json();
-        setTransaksiId(transaksi.response.id);
-        console.log(transaksi.response.id);
+        setTransaksiId(2);
     };
 
     const getTransaksi = async () => {
@@ -150,7 +149,7 @@ const Home: React.FC<props> = ({ navigation }) => {
         (item) => item.buktiBayar === null
     );
 
-    console.log(transaksiStatusUser);
+    console.log("buktiBayar",transaksiStatusUser);
 
     const sideBarContent = () => {
         return (
@@ -323,9 +322,9 @@ const Home: React.FC<props> = ({ navigation }) => {
 
                 {/* Product */}
                 <View style={{ marginTop: 20, marginLeft: 20 }}>
-                    <Text>{transaksiId}</Text>
                     {/* button create transaksi */}
                     <TouchableOpacity
+                        disabled={transaksiId === 2 || transaksiStatusUser?.length > 0 ? true : false}
                         onPress={createTransaksi}
                         activeOpacity={0.8}
                         style={{
