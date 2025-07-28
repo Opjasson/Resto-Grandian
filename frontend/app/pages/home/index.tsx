@@ -324,7 +324,11 @@ const Home: React.FC<props> = ({ navigation }) => {
                 <View style={{ marginTop: 20, marginLeft: 20 }}>
                     {/* button create transaksi */}
                     <TouchableOpacity
-                        disabled={transaksiId === 2 || transaksiStatusUser?.length > 0 ? true : false}
+                        disabled={
+                            transaksiId === 2 || transaksiStatusUser?.length > 0
+                                ? true
+                                : false
+                        }
                         onPress={createTransaksi}
                         activeOpacity={0.8}
                         style={{
@@ -538,6 +542,13 @@ const Home: React.FC<props> = ({ navigation }) => {
                             .filter((item, index) => item.promo !== null)
                             .map((a, index) => (
                                 <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate("DetailProduct", {
+                                            data: a,
+                                            idTrans: transaksiStatusUser[0].id,
+                                            idUser: id,
+                                        })
+                                    }
                                     key={index}
                                     activeOpacity={0.7}
                                     style={{
