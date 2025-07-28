@@ -87,7 +87,8 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         await fetch(`http://192.168.239.220:5000/transaksi/${id}`, {
             method: "DELETE",
         });
-        navigation.navigate("HistoryTransaksi");
+        alert("Transaksi Berhasil Dihapus!")
+        navigation.navigate("HistoryPesanan");
     };
 
     const handleUpdateStatus = async () => {
