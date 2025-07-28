@@ -1,6 +1,13 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -19,7 +26,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     const [cart, setCart] = useState<
         {
             qty: number;
-            barangId: number;
+            productId: number;
             transaksiId: number;
         }[]
     >([]);
@@ -27,20 +34,24 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     const [totalHarga, setTotalHarga] = useState<number>();
     const [createdAt, setCreatedAt] = useState<string>();
     const [pelanggan, setPelanggan] = useState<string>();
-    const [bayar, setBayar] = useState<number>();
+    const [buktiBayar, setBuktiBayar] = useState<string>();
+    const [catatanTambahan, setCatatanTambahan] = useState<number>();
+    const [status, setStatus] = useState<number>();
 
     const routeUuid = route.params?.uuid;
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.220.220:5000/transaksi/${routeUuid}`
+            `http://192.168.239.220:5000/transaksi/${routeUuid}`
         );
         const dataJson = await response.json();
-        setCart(dataJson.carts);
+        setCart(dataJson.keranjangs);
         setUuid(dataJson.uuid);
         setTotalHarga(dataJson.totalHarga);
         setPelanggan(dataJson.namaPelanggan);
-        setBayar(dataJson.bayarPelanggan);
+        setBuktiBayar(dataJson.buktiBayar);
+        setCatatanTambahan(dataJson.catatanTambahan);
+        setStatus(dataJson.status);
         setCreatedAt(dataJson.createdAt);
         setId(dataJson.id);
     };
@@ -48,16 +59,15 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     const [barang, setBarang] = useState<
         {
             id: number;
-            nama: string;
-            harga_jual: number;
-            stok: number;
+            nama_product: string;
+            harga_product: number;
         }[]
     >([]);
     // console.log(data);
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.220.220:5000/barang");
+            const response = await fetch("http://192.168.239.220:5000/product");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -74,10 +84,10 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.220.220:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.239.220:5000/transaksi/${id}`, {
             method: "DELETE",
         });
-        navigation.navigate("history-transaksi");
+        navigation.navigate("HistoryTransaksi");
     };
 
     // convert tanggal menjadi string
@@ -168,55 +178,124 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     };
 
     return (
-        <View>
+        <ScrollView>
             <View style={styles.card}>
                 <View style={styles.rowBetween}>
-                    <Text style={styles.date}>2002</Text>
+                    <Text style={styles.date}>{createdAt?.split("T")[0]}</Text>
                     <Text style={styles.type}>
                         Status{" "}
-                        <AntDesign
-                            name="checkcircleo"
-                            size={16}
-                            color="black"
-                        />
-                        <AntDesign name="checkcircle" size={16} color="green" />
+                        {status === null ? (
+                            <AntDesign
+                                name="checkcircleo"
+                                size={16}
+                                color="black"
+                            />
+                        ) : (
+                            <AntDesign
+                                name="checkcircle"
+                                size={16}
+                                color="green"
+                            />
+                        )}
                     </Text>
                 </View>
                 <View style={styles.titleRow}>
                     <View style={styles.verticalLine} />
                     <View style={styles.content}>
-                        <Text style={styles.title}>Pelanggan :</Text>
-                        <Text style={styles.location}>Id Pesanan :</Text>
+                        <Text style={styles.title}>
+                            Pelanggan : {pelanggan}
+                        </Text>
+                        <Text style={styles.location}>Id Pesanan : {uuid}</Text>
 
-                        <Text style={styles.name}>Budi</Text>
+                        <Text>Daftar Pesanan :</Text>
+                        {cart.map((name, idx) => (
+                            <Text key={idx} style={styles.name}>
+                                {
+                                    barang.find((a) => a.id === name.productId)
+                                        ?.nama_product
+                                }{" "}
+                                x {name.qty}
+                            </Text>
+                        ))}
+
+                        <Text style={{ marginTop: 7, borderTopWidth: 2 }}>
+                            Catatan Tambahan :
+                        </Text>
+                        <Text style={styles.location}>{catatanTambahan}</Text>
+
+                        <Text style={{ marginTop: 7, borderTopWidth: 2 }}>
+                            Bukti Bayar :
+                        </Text>
+
+                        <Image
+                            resizeMode="cover"
+                            style={styles.img}
+                            src={buktiBayar}
+                        />
                     </View>
                 </View>
                 <View style={styles.rowBetween}>
                     <TouchableOpacity>
                         <Text style={styles.showLess}>Total Nominal :</Text>
                     </TouchableOpacity>
-                    <Text style={styles.price}>20000</Text>
+                    <Text style={styles.price}>
+                        Rp. {totalHarga?.toLocaleString()}
+                    </Text>
                 </View>
             </View>
 
-            <View>
+            <View
+                style={{
+                    justifyContent: "center",
+                    gap: 10,
+                    flexDirection: "row",
+                    marginBottom: 10,
+                }}>
                 <TouchableOpacity
                     onPress={() => deleteTransaksi()}
-                    style={styles.buttonDelete}>
+                    style={{
+                        backgroundColor: "#799EFF",
+                        padding: 10,
+                        borderRadius: 10,
+                    }}>
+                    <Text>Selesai</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => deleteTransaksi()}
+                    style={{
+                        backgroundColor: "#FB4141",
+                        padding: 10,
+                        borderRadius: 10,
+                        paddingHorizontal: 13,
+                    }}>
                     <Text>Delete</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={handleSavePdf}
-                    style={styles.buttonDate}>
+                    style={{
+                        backgroundColor: "#4A9782",
+                        padding: 10,
+                        borderRadius: 10,
+                        // paddingHorizontal: 13,
+                        flexDirection: "row",
+                    }}>
                     <FontAwesome5 name="print" size={24} color="black" />
                     <Text>Cetak</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 const styles = StyleSheet.create({
+    img: {
+        width: 300,
+        height: 600,
+        marginHorizontal: "auto",
+        borderRadius: 8,
+        elevation: 5,
+    },
     container: { flex: 1, backgroundColor: "#f4f4f4" },
     card: {
         backgroundColor: "#fff",

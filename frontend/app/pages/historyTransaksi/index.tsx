@@ -160,7 +160,9 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                             key={index}
                             style={styles.card}
                             onPress={() =>
-                                navigation.navigate("DetailTransaksi")
+                                navigation.navigate("DetailTransaksi",{
+                                    uuid : item.uuid
+                                })
                             }>
                             <View style={styles.rowBetween}>
                                 <Text style={styles.date}>
