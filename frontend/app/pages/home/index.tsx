@@ -127,8 +127,8 @@ const Home: React.FC<props> = ({ navigation }) => {
                 namaPelanggan: username,
             }),
         });
-        const transaksi = await response.json();
         setTransaksiId(2);
+        alert("Silahkan Lanjutkan Pesanan")
     };
 
     const getTransaksi = async () => {
@@ -365,13 +365,24 @@ const Home: React.FC<props> = ({ navigation }) => {
                             ? searchProduct.map((a, index) => (
                                   <TouchableOpacity
                                       key={index}
-                                      onPress={() =>
-                                          navigation.navigate("DetailProduct", {
-                                              data: a,
-                                              idTrans:
-                                                  transaksiStatusUser[0]?.id,
-                                              idUser: id,
-                                          })
+                                      onPress={
+                                          transaksiId === 2 ||
+                                          transaksiStatusUser?.length > 0
+                                              ? () =>
+                                                    navigation.navigate(
+                                                        "DetailProduct",
+                                                        {
+                                                            data: a,
+                                                            idTrans:
+                                                                transaksiStatusUser[0]
+                                                                    ?.id,
+                                                            idUser: id,
+                                                        }
+                                                    )
+                                              : () =>
+                                                    alert(
+                                                        "Buat Transaksi Dulu!"
+                                                    )
                                       }
                                       activeOpacity={0.7}
                                       style={{
@@ -437,17 +448,24 @@ const Home: React.FC<props> = ({ navigation }) => {
                                   .map((item, index) => (
                                       <TouchableOpacity
                                           key={index}
-                                          onPress={() =>
-                                              navigation.navigate(
-                                                  "DetailProduct",
-                                                  {
-                                                      data: item,
-                                                      idTrans:
-                                                          transaksiStatusUser[0]
-                                                              .id,
-                                                      idUser: id,
-                                                  }
-                                              )
+                                          onPress={
+                                              transaksiId === 2 ||
+                                              transaksiStatusUser?.length > 0
+                                                  ? () =>
+                                                        navigation.navigate(
+                                                            "DetailProduct",
+                                                            {
+                                                                data: item,
+                                                                idTrans:
+                                                                    transaksiStatusUser[0]
+                                                                        ?.id,
+                                                                idUser: id,
+                                                            }
+                                                        )
+                                                  : () =>
+                                                        alert(
+                                                            "Buat Transaksi Dulu!"
+                                                        )
                                           }
                                           activeOpacity={0.7}
                                           style={{
@@ -542,12 +560,22 @@ const Home: React.FC<props> = ({ navigation }) => {
                             .filter((item, index) => item.promo !== null)
                             .map((a, index) => (
                                 <TouchableOpacity
-                                    onPress={() =>
-                                        navigation.navigate("DetailProduct", {
-                                            data: a,
-                                            idTrans: transaksiStatusUser[0].id,
-                                            idUser: id,
-                                        })
+                                    onPress={
+                                        transaksiId === 2 ||
+                                        transaksiStatusUser?.length > 0
+                                            ? () =>
+                                                  navigation.navigate(
+                                                      "DetailProduct",
+                                                      {
+                                                          data: a,
+                                                          idTrans:
+                                                              transaksiStatusUser[0]
+                                                                  ?.id,
+                                                          idUser: id,
+                                                      }
+                                                  )
+                                            : () =>
+                                                  alert("Buat Transaksi Dulu!")
                                     }
                                     key={index}
                                     activeOpacity={0.7}
