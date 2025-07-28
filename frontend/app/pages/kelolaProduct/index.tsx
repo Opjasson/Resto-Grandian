@@ -10,7 +10,7 @@ import {
     Add,
     HeartOff,
 } from "../../inventory/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
     ScrollView,
@@ -33,6 +33,27 @@ interface props {
 const KelolaProduct: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
+    const [products, setProducts] = useState<
+        {
+            id: number;
+            nama_product: string;
+            deskripsi: string;
+            harga_product: number;
+            img_product: string;
+            kategori_product: string;
+            promo: string;
+        }[]
+    >([]);
+    const getProducts = async () => {
+        const response = await fetch("http://192.168.239.220:5000/product");
+        const data = await response.json();
+        setProducts(data);
+        // console.log(data);
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, []);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -64,7 +85,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                     marginTop: 30,
                     marginBottom: 20,
                     marginHorizontal: 30,
-                    gap : 10,
+                    gap: 10,
                     alignItems: "center",
                 }}>
                 <Ionicons
@@ -102,57 +123,74 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                         marginTop: 20,
                         justifyContent: "center",
                     }}>
-                    <TouchableOpacity
-                    onPress={() => navigation.navigate("UbahProduct")}
-                        activeOpacity={0.7}
-                        style={{
-                            backgroundColor: "white",
-                            borderRadius: 20,
-                            paddingHorizontal: 5,
-                            paddingVertical: 5,
-                            elevation: 5,
-                            shadowColor: "black",
-                            marginRight: 8,
-                            margin: 8,
-                        }}>
-                        <Image
-                            source={coffe}
-                            style={{ width: 144, borderRadius: 20 }}
-                        />
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                marginTop: 10,
-                            }}>
-                            <View>
-                                <Text
-                                    style={{
-                                        fontWeight: "500",
-                                        fontSize: 14,
-                                    }}>
-                                    Cappuchino
-                                </Text>
-                                <Text style={{ marginTop: 5, fontSize: 10 }}>
-                                    With Sugar
-                                </Text>
-                            </View>
-                        </View>
+                    {/* Show Products */}
 
-                        <View
+                    {products.map((item, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => navigation.navigate("UbahProduct", {
+                                data : item
+                            })}
+                            activeOpacity={0.7}
                             style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
+                                backgroundColor: "white",
+                                borderRadius: 20,
+                                paddingHorizontal: 5,
+                                paddingVertical: 5,
+                                elevation: 5,
+                                shadowColor: "black",
+                                marginRight: 8,
+                                margin: 8,
                             }}>
-                            <Text>Rp50.000</Text>
-                            <MaterialIcons
-                                name="delete"
-                                size={24}
-                                color="black"
+                            <Image
+                                src={item.img_product}
+                                style={{
+                                    width: 144,
+                                    height: 144,
+                                    borderRadius: 20,
+                                }}
                             />
-                        </View>
-                    </TouchableOpacity>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    marginTop: 10,
+                                }}>
+                                <View>
+                                    <Text
+                                        style={{
+                                            fontWeight: "500",
+                                            fontSize: 14,
+                                        }}>
+                                        {item.nama_product}
+                                    </Text>
+                                    <Text
+                                        style={{ marginTop: 5, fontSize: 10 }}>
+                                        {item.kategori_product}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                }}>
+                                <Text>
+                                    Rp. {item.harga_product.toLocaleString()}
+                                </Text>
+
+                                <TouchableOpacity>
+                                    <MaterialIcons
+                                        name="delete"
+                                        size={24}
+                                        color="black"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
                 </View>
             </ScrollView>
             {/* End Product */}
