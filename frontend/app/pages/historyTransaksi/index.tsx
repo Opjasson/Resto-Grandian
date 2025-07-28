@@ -1,72 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
     FlatList,
     StyleSheet,
     TouchableOpacity,
+    ScrollView,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import { NavigationProp } from "@react-navigation/native";
-
-const data = [
-    {
-        id: "1",
-        date: "01-01-2000",
-        title: "Robi",
-        location: "088hsbx",
-        names: ["Василий Упкин", "Евгений Петров"],
-        price: "158 000",
-    },
-    {
-        id: "2",
-        date: "01-01-2000",
-        title: "Dalban",
-        location: "088hsbx",
-        names: ["Евгений Петров", "Михаил Гончаров"],
-        price: "78 600",
-    },
-    {
-        id: "3",
-        date: "01-01-2000",
-        title: "Albert",
-        location: "088hsbx",
-        names: ["Евгений Петров", "Михаил Гончаров"],
-        price: "78 600",
-    },
-];
-
-const Card = ({ item }) => (
-    <View style={styles.card}>
-        <View style={styles.rowBetween}>
-            <Text style={styles.date}>{item.date}</Text>
-            <Text style={styles.type}>
-                Status <AntDesign name="checkcircle" size={16} color="green" />
-            </Text>
-        </View>
-        <View style={styles.titleRow}>
-            <View style={styles.verticalLine} />
-            <View style={styles.content}>
-                <Text style={styles.title}>Pelanggan : {item.title}</Text>
-                <Text style={styles.location}>Id Pesanan : {item.location}</Text>
-                {item.names.map((name, idx) => (
-                    <Text key={idx} style={styles.name}>
-                        {name} x 2
-                    </Text>
-                ))}
-            </View>
-        </View>
-        <View style={styles.rowBetween}>
-            <TouchableOpacity>
-                <Text style={styles.showLess}>Total Nominal :</Text>
-            </TouchableOpacity>
-            <Text style={styles.price}>{item.price}</Text>
-        </View>
-    </View>
-);
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -75,6 +20,37 @@ interface props {
 const HistoryPesanan: React.FC<props> = ({ navigation }) => {
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(true);
+    const [historyTransaksi, setHistoryTransaksi] = useState<
+        {
+            keranjangs: [
+                {
+                    id: number;
+                    qty: number;
+                    createdAt: number;
+                    productId: number;
+                    userId: number;
+                    transaksiId: number;
+                }
+            ];
+            id: number;
+            uuid: string;
+            totalHarga: number;
+            createdAt: string;
+            namaPelanggan: string;
+            status: boolean;
+            buktiBayar: string;
+            catatanTambahan: string;
+        }[]
+    >([]);
+
+    const [barang, setBarang] = useState<
+        {
+            id: number;
+            nama_product: string;
+            harga_product: number;
+            stok: number;
+        }[]
+    >([]);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -97,6 +73,62 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
             />
         );
     };
+
+    const getHistorys = async () => {
+        try {
+            const response = await fetch(
+                "http://192.168.239.220:5000/transaksi"
+            );
+            const history = (await response.json()) as {
+                response: {
+                    keranjangs: [
+                        {
+                            id: number;
+                            qty: number;
+                            createdAt: number;
+                            productId: number;
+                            userId: number;
+                            transaksiId: number;
+                        }
+                    ];
+                    id: number;
+                    uuid: string;
+                    totalHarga: number;
+                    createdAt: string;
+                    namaPelanggan: string;
+                    status: boolean;
+                    buktiBayar: string;
+                    catatanTambahan: string;
+                }[];
+            };
+            const dataArray = history.response;
+            // console.log(dataArray[0].keranjangs);
+
+            setHistoryTransaksi(dataArray);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getDataBarang = async () => {
+        try {
+            const response = await fetch("http://192.168.239.220:5000/product");
+            const barang = await response.json();
+            console.log(barang);
+            setBarang(barang);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getDataBarang();
+    }, []);
+
+    useEffect(() => {
+        getHistorys();
+    }, []);
+
     return (
         <View style={styles.container}>
             <View
@@ -118,12 +150,61 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                     History Pesanan
                 </Text>
             </View>
-            <FlatList
-                contentContainerStyle={{ paddingBottom: 100 }}
-                data={data}
-                renderItem={({ item }) => <Card item={item} />}
-                keyExtractor={(item) => item.id}
-            />
+            <ScrollView>
+                {[...historyTransaksi]
+                    .sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
+                    .map((item, index) => (
+                        <TouchableOpacity key={index} style={styles.card}>
+                            <View style={styles.rowBetween}>
+                                <Text style={styles.date}>
+                                    {item.createdAt.split("T")[0]}
+                                </Text>
+                                <Text style={styles.type}>
+                                    Status{" "}
+                                    <AntDesign
+                                        name="checkcircle"
+                                        size={16}
+                                        color="green"
+                                    />
+                                </Text>
+                            </View>
+                            <View style={styles.titleRow}>
+                                <View style={styles.verticalLine} />
+                                <View style={styles.content}>
+                                    <Text style={styles.title}>
+                                        Pelanggan : {item.namaPelanggan}
+                                    </Text>
+                                    <Text style={styles.location}>
+                                        Id Pesanan : {item.uuid}
+                                    </Text>
+                                    {item.keranjangs.map((name, idx) => (
+                                        <Text key={idx} style={styles.name}>
+                                            {
+                                                barang.find(
+                                                    (a) =>
+                                                        a.id === name.productId
+                                                )?.nama_product
+                                            }{" "}
+                                            x {name.qty}
+                                        </Text>
+                                    ))}
+                                </View>
+                            </View>
+                            <View style={styles.rowBetween}>
+                                <TouchableOpacity>
+                                    <Text style={styles.showLess}>
+                                        Total Nominal :
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text style={styles.price}>
+                                    {item.totalHarga}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+            </ScrollView>
 
             <MenuDrawer
                 open={open}
