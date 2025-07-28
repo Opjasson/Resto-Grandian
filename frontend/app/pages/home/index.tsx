@@ -55,6 +55,7 @@ const Home: React.FC<props> = ({ navigation }) => {
             id: number;
             namaPelanggan: string;
             status: boolean;
+            buktiBayar: string;
         }[]
     >([]);
 
@@ -146,7 +147,7 @@ const Home: React.FC<props> = ({ navigation }) => {
         (item) => item.namaPelanggan === username
     );
     const transaksiStatusUser = transaksiNamaPelangganUser.filter(
-        (item) => item.status === null
+        (item) => item.buktiBayar === null
     );
 
     console.log(transaksiStatusUser);
@@ -365,7 +366,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                                           navigation.navigate("DetailProduct", {
                                               data: a,
                                               idTrans:
-                                                  transaksiStatusUser[0].id,
+                                                  transaksiStatusUser[0]?.id,
                                               idUser: id,
                                           })
                                       }

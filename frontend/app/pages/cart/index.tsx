@@ -36,6 +36,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
             id: number;
             namaPelanggan: string;
             status: boolean;
+            buktiBayar: string;
             keranjangs: [
                 {
                     id: string;
@@ -140,7 +141,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
             (item) => item.namaPelanggan === username
         );
         const transaksiStatusUser = transaksiNamaPelangganUser.filter(
-            (item) => item.status === null
+            (item) => item.buktiBayar === null
         );
 
         if (transaksiStatusUser.length === 0) return;
@@ -296,6 +297,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 }
             );
             alert("Berhasil");
+            navigation.navigate("Home")
         } catch (error) {
             console.log(error);
         }
