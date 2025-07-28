@@ -122,13 +122,13 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         const rows = cart
             .map(
                 (item, index) => `
-            <div>Barang : ${
-                barang.find((e) => e.id === item.barangId)?.nama
+            <div>Pesanan : ${
+                barang.find((e) => e.id === item.productId)?.nama_product
             }<br>${item.qty} x ${
-                    barang.find((e) => e.id === item.barangId)?.harga_jual
+                    barang.find((e) => e.id === item.productId)?.harga_product
                 }<span class="right">Rp ${
                     item.qty *
-                    barang.find((e) => e.id === item.barangId)!.harga_jual
+                    barang.find((e) => e.id === item.productId)!.harga_product
                 }</span>
             </div>
     `
@@ -148,9 +148,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         </head>
         <body>
         <div class="center">
-        <h3>Tirta Laksana Jaya Murni</h3>
-        <p>Jl. Raya Curug Pangkah <br>Tegal</p>
-        <p>No. Telp: 08156667320</p>
+        <h3>Grandian Brebes Restaurant</h3>
+        <p>Jl. Jendral Sudirman, No 20 <br>Kab. Brebes</p>
+        <p>No. Telp: +62 895-1462-6206</p>
         </div>
         <div class="line"></div>
         <div class="row"><span>${dateNow}</span></div>
@@ -164,9 +164,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
               <div class="line"></div>
               <div class="row"><span>Jumlah barang</span><span>Qty : ${handleQTyAll()}</span></div>
               <div class="row bold"><span>Total</span><span>Rp ${totalHarga?.toLocaleString()}</span></div>
-              <div class="row"><span>Bayar (Cash)</span><span>Rp ${bayar?.toLocaleString()}</span></div>
+              <div class="row"><span>Bayar (Cash)</span><span>Rp ${totalHarga?.toLocaleString()}</span></div>
               <div class="row"><span>Kembali</span><span>Rp ${
-                  bayar! - totalHarga!
+                  totalHarga! - totalHarga!
               }</span></div>
         
               <div class="center"><p>Terima kasih telah berbelanja</p></div>
@@ -181,7 +181,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             html: htmlContent,
         });
 
-        const customFileName = `Kasir bengkel_${dateNow}.pdf`;
+        const customFileName = `GrandianResto-Brebes_${dateNow}.pdf`;
         const newUri = FileSystem.documentDirectory + customFileName;
 
         await FileSystem.moveAsync({
