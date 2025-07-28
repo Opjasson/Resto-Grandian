@@ -102,6 +102,9 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
         }
     };
 
+    // end handle uplod image --------------
+    
+    // Handle Update Product -----------
     const handleUpdateProduct = async () => {
         await fetch(`http://192.168.239.220:5000/product/${id}`, {
             method: "PATCH",
@@ -120,8 +123,9 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
         alert("Product Berhasil Dirubah!")
         navigation.navigate("KelolaProduct")
     }
-    // end handle uplod image --------------
+    // end Handle Update Product -----------
 
+    
     return (
         <ScrollView>
             <View style={styles.containerForm}>

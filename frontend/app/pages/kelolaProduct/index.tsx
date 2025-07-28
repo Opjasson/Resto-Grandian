@@ -55,6 +55,17 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         getProducts();
     }, []);
 
+    const handleDeleteProduct = async (productId: number) => {
+        await fetch(`http://192.168.239.220:5000/product/${productId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        alert("Product berhasil dihapus!")
+        navigation.navigate("Home");
+    };
+
     const toggleOpen = () => {
         if (open === false) {
             setOpen(true);
@@ -181,7 +192,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                                     Rp. {item.harga_product.toLocaleString()}
                                 </Text>
 
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => handleDeleteProduct(item.id)}>
                                     <MaterialIcons
                                         name="delete"
                                         size={24}
