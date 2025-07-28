@@ -90,6 +90,20 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
         navigation.navigate("HistoryTransaksi");
     };
 
+    const handleUpdateStatus = async () => {
+        await fetch(`http://192.168.239.220:5000/transaksi/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                status: true,
+            }),
+        });
+        alert("Status Selesai!")
+        navigation.navigate("HistoryPesanan")
+    }
+
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
 
@@ -227,11 +241,12 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                             Bukti Bayar :
                         </Text>
 
-                        <Image
+                        {buktiBayar?.length > 0 ? <Image
                             resizeMode="cover"
                             style={styles.img}
                             src={buktiBayar}
-                        />
+                        /> : ""}
+                        
                     </View>
                 </View>
                 <View style={styles.rowBetween}>
@@ -252,7 +267,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                     marginBottom: 10,
                 }}>
                 <TouchableOpacity
-                    onPress={() => deleteTransaksi()}
+                    onPress={() => handleUpdateStatus()}
                     style={{
                         backgroundColor: "#799EFF",
                         padding: 10,
