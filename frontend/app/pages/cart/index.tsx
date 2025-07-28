@@ -323,7 +323,10 @@ const Cart: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView
+            contentContainerStyle={styles.container}
+            
+            showsVerticalScrollIndicator={false}>
             <View
                 style={{
                     flexDirection: "row",
@@ -461,7 +464,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
         backgroundColor: "#fff",
-        flex: 1,
+        paddingBottom: 20
     },
     cartTitle: {
         fontSize: 18,
