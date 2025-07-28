@@ -88,7 +88,6 @@ const Cart: React.FC<props> = ({ navigation }) => {
         const response = await fetch("http://192.168.239.220:5000/product");
         const data = await response.json();
         setProducts(data);
-        console.log("product", data);
     };
 
     useEffect(() => {
@@ -182,6 +181,8 @@ const Cart: React.FC<props> = ({ navigation }) => {
         setDataShow(update);
     };
 
+    console.log(dataShow);
+    
     const totalHarga = useMemo(() => {
         return dataShow.reduce(
             (total, item) => total + item.harga * item.qty,
@@ -269,37 +270,41 @@ const Cart: React.FC<props> = ({ navigation }) => {
 
     // handle buy button -----------------------
     const buyHandle = async () => {
-        try {
-            dataShow.forEach(async (item: any) => {
-                await fetch(`http://192.168.239.220:5000/cart/${item.id}`, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        qty: item.qty,
-                    }),
+        if (dataShow.length > 0 && imgSend !== null) {
+            try {
+                dataShow.forEach(async (item: any) => {
+                    await fetch(`http://192.168.239.220:5000/cart/${item.id}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            qty: item.qty,
+                        }),
+                    });
                 });
-            });
-
-            await fetch(
-                `http://192.168.239.220:5000/transaksi/${idTransaksi}`,
-                {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        totalHarga: totalHarga,
-                        buktiBayar: imgSend,
-                        catatanTambahan: catatan,
-                    }),
-                }
-            );
-            alert("Berhasil");
-            navigation.navigate("Home")
-        } catch (error) {
-            console.log(error);
+    
+                await fetch(
+                    `http://192.168.239.220:5000/transaksi/${idTransaksi}`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            totalHarga: totalHarga,
+                            buktiBayar: imgSend,
+                            catatanTambahan: catatan,
+                        }),
+                    }
+                );
+                alert("Berhasil");
+                navigation.navigate("Home")
+            } catch (error) {
+                console.log(error);
+            }
+        }else{
+            alert("Anda belum menyelesaikan pemesanan!")
         }
     };
     // end handle buy button --------------------
