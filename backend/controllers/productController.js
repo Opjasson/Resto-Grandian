@@ -38,53 +38,62 @@ export const getproduct = async (req, res) => {
     }
 };
 
-// export const updateproductById = async (req, res) => {
-//     try {
-//         const { nama, harga_jual, harga_beli, stok } = req.body;
-//         await product.update(
-//             {
-//                 nama,
-//                 harga_jual,
-//                 harga_beli,
-//                 stok,
-//             },
-//             {
-//                 where: {
-//                     id: req.params.id,
-//                 },
-//             }
-//         );
-//         res.status(200).json({ msg: "Data berhasil dirubah" });
-//     } catch (error) {
-//         res.status(400).json({ msg: error.message });
-//     }
-// };
+export const updateproductById = async (req, res) => {
+    try {
+        const {
+            nama_product,
+            deskripsi,
+            harga_product,
+            img_product,
+            kategori_product,
+            promo,
+        } = req.body;
+        await product.update(
+            {
+                nama_product,
+                deskripsi,
+                harga_product,
+                img_product,
+                kategori_product,
+                promo,
+            },
+            {
+                where: {
+                    id: req.params.id,
+                },
+            }
+        );
+        res.status(200).json({ msg: "Data berhasil dirubah" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
 
-// export const getproductById = async (req, res) => {
-//     try {
-//         const response = await product.findOne({
-//             where: {
-//                 id: req.params.id,
-//             },
-//         });
+export const getproductById = async (req, res) => {
+    try {
+        const response = await product.findOne({
+            where: {
+                id: req.params.id,
+            },
+        });
 
-//         if (!response) res.status(400).json({ msg: "Data tidak tersedia!" });
+        if (!response) res.status(400).json({ msg: "Data tidak tersedia!" });
 
-//         res.status(200).json(response);
-//     } catch (error) {
-//         res.status(400).json({ msg: error.message });
-//     }
-// };
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};
 
-// export const deleteproductById = async (req, res) => {
-//     try {
-//         await product.destroy({
-//             where: {
-//                 id: req.params.id,
-//             },
-//         });
-//         res.status(200).json({ msg: "Data berhasil dihapus!" });
-//     } catch (error) {
-//         res.status(400).json({ msg: error.message });
-//     }
-// };
+export const deleteproductById = async (req, res) => {
+    try {
+        await product.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        res.status(200).json({ msg: "Data berhasil dihapus!" });
+    } catch (error) {
+        res.status(400).json({ msg: error.message });
+    }
+};

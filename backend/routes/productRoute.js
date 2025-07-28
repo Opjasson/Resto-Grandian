@@ -1,12 +1,12 @@
 import express from "express";
-import { createproduct, getproduct } from "../controllers/productController.js";
+import { createproduct, deleteproductById, getproduct, getproductById, updateproductById } from "../controllers/productController.js";
 
 const route = express.Router();
 
 route.get("/product", getproduct);
-// route.get("/barang/:id", getBarangById);
+route.get("/product/:id", getproductById);
 route.post("/product", createproduct);
-// route.delete("/barang/:id", deleteBarangById);
-// route.patch("/barang/:id", updateBarangById)
+route.delete("/product/:id", deleteproductById);
+route.patch("/product/:id", updateproductById)
 
 export default route;
