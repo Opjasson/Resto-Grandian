@@ -18,6 +18,7 @@ import * as FileSystem from "expo-file-system";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { hotel } from "@/app/inventory/images";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -29,8 +30,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     const [barang, setBarang] = useState<
         {
             id: number;
-            nama: string;
-            harga_beli: number;
+            nama_product: string;
+            harga_product: number;
             harga_jual: number;
             stok: number;
         }[]
@@ -38,7 +39,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const [cart, setCart] = useState<
         {
-            barangId: number;
+            productId: number;
             createdAt: string;
             qty: number;
             transaksiId: number;
@@ -69,11 +70,12 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         return (
             <DrawerContent
                 toggleOpen={toggleOpen}
-                onPress1={() => navigation.navigate("kasir")}
-                onPress2={() => navigation.navigate("manage-barang")}
-                onPress3={() => navigation.navigate("history-transaksi")}
+                onPress1={() => navigation.navigate("Cart")}
+                onPress2={() => navigation.navigate("Home")}
+                onPress3={() => navigation.navigate("HistoryPesanan")}
                 onPress4={() => navigation.navigate("login")}
-                onPress5={() => navigation.navigate("Laporan")}
+                onPress5={() => navigation.navigate("KelolaProduct")}
+                onPress6={() => navigation.navigate("Laporan")}
             />
         );
     };
@@ -93,7 +95,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch("http://192.168.220.220:5000/cart");
+            const response = await fetch("http://192.168.239.220:5000/cart");
             const cat = await response.json();
             setCart(cat.response);
         } catch (error) {
@@ -103,7 +105,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.220.220:5000/barang");
+            const response = await fetch("http://192.168.239.220:5000/product");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -121,14 +123,14 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     // Penting ----------------
     // Buat map untuk mempermudah pencarian nama berdasarkan barangId
-    const barangMap = Object.fromEntries(barang.map((b) => [b.id, b.nama]));
+    const barangMap = Object.fromEntries(barang.map((b) => [b.id, b.nama_product]));
 
     // Ubah barangId menjadi nama
     const cartDenganNama = cart.map((item) => ({
         createdAt: item.createdAt.split("T")[0],
         qty: item.qty,
         transaksiId: item.transaksiId,
-        nama_barang: barangMap[item.barangId],
+        nama_barang: barangMap[item.productId],
     }));
 
     const grouped1 = new Map();
@@ -150,14 +152,14 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     const hasilGabungan = Array.from(grouped1.values());
 
     // Buat map nama_barang => data barang
-    const barangMap2 = Object.fromEntries(barang.map((b) => [b.nama, b]));
+    const barangMap2 = Object.fromEntries(barang.map((b) => [b.nama_product, b]));
 
     // Tambahkan harga ke setiap item transaksi
     const transaksiDenganHarga = hasilGabungan.map((item) => {
         const barangInfo = barangMap2[item.nama_barang] || {};
         return {
             ...item,
-            harga_jual: barangInfo.harga_jual || 0,
+            harga_jual: barangInfo.harga_product || 0,
         };
     });
 
@@ -251,11 +253,11 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 <body>
 
   <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
+    <img src="../../inventory/images/hotel.png" alt="Grandian Hotel" height="50"><br>
     <h1>Laporan Pendataan Penjualan ${date.toISOString().split("T")[0]} - ${
             date2.toISOString().split("T")[0]
         }</h1>
-    <p><strong>Tirta Laksana Jaya Murni</strong><br>081246798129</p>
+    <p><strong>Grandian Hotel Brebes</strong><br>+62 895-1462-6206</p>
   </div>
 
   <table>
@@ -286,7 +288,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             html: htmlContent,
         });
 
-        const customFileName = `Kasir bengkel_${dateNow}.pdf`;
+        const customFileName = `Laporan-Penjualan-Resto-GrandianBrebes_${dateNow}.pdf`;
         const newUri = FileSystem.documentDirectory + customFileName;
 
         await FileSystem.moveAsync({
@@ -322,29 +324,35 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {/* bagian atas aplikasi kasir */}
-            <View style={styles.headContainer}>
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginTop: 20,
+                    marginBottom: 20,
+                    marginLeft: 20,
+                    gap: 10,
+                    alignItems: "center",
+                }}>
                 <Ionicons
                     name="menu"
                     size={30}
-                    color="white"
+                    color="black"
                     onPress={() => toggleOpen()}
                 />
-                <Text style={styles.headTitle}>Laporan Penjualan</Text>
+                <Text style={{ fontWeight: "500", fontSize: 20 }}>
+                    Laporan Penjualan
+                </Text>
             </View>
             {/* ------------ */}
 
             {/* menampilkan daftar menu */}
-            <ScrollView style={{ paddingHorizontal: 8 }}>
-                <View
-                    style={{
-                        paddingLeft: 25,
-                        paddingVertical: 15,
-                    }}>
-                    <Text style={{ fontSize: 20, fontWeight: "900" }}>
-                        Laporan Penjualan Bengkel Mobil
+            <ScrollView style={{ paddingLeft : 10 }}>
+                <View>
+                    <Text style={{ fontSize: 20, fontWeight: "900", textAlign : "center" }}>
+                        Grandian Hotel Brebes Restaurant
                     </Text>
                     <Text style={{ borderBottomWidth: 2, height: 2 }}></Text>
-                    <Text style={{ fontSize: 15, fontWeight: "light" }}>
+                    <Text style={{ fontSize: 15, fontWeight: "light", textAlign : "center" }}>
                         Filter data berdasarkan tanggal yang dibutuhkan
                     </Text>
                     <View
@@ -352,6 +360,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center",
+                            width : 300,
+                            marginLeft : 50
                         }}>
                         <TouchableOpacity
                             style={styles.buttonDate}
@@ -360,9 +370,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             <FontAwesome6
                                 name="newspaper"
                                 size={24}
-                                color="black"
+                                color="white"
                             />
-                            <Text>
+                            <Text style={{ color : "white" }}>
                                 {date
                                     ? date.toISOString().split("T")[0]
                                     : dateNow}
@@ -383,9 +393,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             <FontAwesome6
                                 name="newspaper"
                                 size={24}
-                                color="black"
+                                color="white"
                             />
-                            <Text>
+                            <Text style={{ color : "white" }}>
                                 {date2
                                     ? date2.toISOString().split("T")[0]
                                     : dateNow}
@@ -395,20 +405,20 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     <TouchableOpacity
                         onPress={handleSavePdf}
                         style={styles.buttonDate}>
-                        <FontAwesome5 name="print" size={24} color="black" />
-                        Cetak
+                        <FontAwesome5 name="print" size={24} color="white" />
+                        <Text style={{ color: "white" }}>Cetak</Text>
                     </TouchableOpacity>
                 </View>
                 {/* menu bagian */}
                 <ScrollView
                     horizontal
                     style={{
-                        backgroundColor: "#FDFFB8",
+                        backgroundColor: "#FFF",
                     }}>
                     <View style={styles.container}>
                         {/* Header */}
                         <View style={[styles.row, styles.header]}>
-                            <Text style={{ width: 50 }}>No</Text>
+                            <Text style={{ width: 50, paddingLeft: 5 }}>No</Text>
                             <Text
                                 style={[
                                     styles.cell,
@@ -436,7 +446,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         {filteredData.map((item, index) => {
                             return (
                                 <View key={index} style={styles.row}>
-                                    <Text style={{ width: 50 }}>
+                                    <Text style={{ width: 50, paddingLeft : 5 }}>
                                         {index + 1}
                                     </Text>
                                     <Text style={[styles.cell, { flex: 2 }]}>
@@ -488,7 +498,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 10,
-        backgroundColor: "#819067",
+        backgroundColor: "#1E5128",
     },
     container: {
         padding: 10,
@@ -550,9 +560,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-    // container: {
-    //     flex: 1,
-    // },
+    container: {
+        flex: 1,
+    },
     headContainer: {
         flexDirection: "row",
         position: "relative",
