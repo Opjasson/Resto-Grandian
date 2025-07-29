@@ -116,6 +116,15 @@ const Cart: React.FC<props> = ({ navigation }) => {
         setUsername(user.username);
     };
 
+    const logOut = async () => {
+        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("LoginPage" as never);
+    };
     getAkunLoggin();
     // end data login ---------------------
 
@@ -316,7 +325,8 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
-                onPress4={() => navigation.navigate("login")}
+                status={user === "kasir" ? false : true}
+                onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("Laporan")}
             />

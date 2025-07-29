@@ -45,6 +45,29 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
             promo: string;
         }[]
     >([]);
+    const [idLogin, setIdLogin] = useState<number>();
+
+    // Get Data Login --------------------------
+    const getUserId = async () => {
+        const response = await fetch("http://192.168.239.220:5000/login");
+        const data = await response.json();
+        setIdLogin(Object.values(data)[0]?.id);
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    const logOut = async () => {
+        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("LoginPage" as never);
+    };
+
     const getProducts = async () => {
         const response = await fetch("http://192.168.239.220:5000/product");
         const data = await response.json();
@@ -82,7 +105,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
-                onPress4={() => navigation.navigate("login")}
+                onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("Laporan")}
             />

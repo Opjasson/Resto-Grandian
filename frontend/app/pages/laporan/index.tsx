@@ -47,6 +47,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     >([]);
     const [date, setDate] = useState(new Date());
     const [date2, setDate2] = useState(new Date());
+    const [idLogin, setIdLogin] = useState<number>();
 
     const [dataLaporan, setDataLaporan] = useState<
         {
@@ -66,6 +67,27 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
+    // Get Data Login --------------------------
+    const getUserId = async () => {
+        const response = await fetch("http://192.168.239.220:5000/login");
+        const data = await response.json();
+        setIdLogin(Object.values(data)[0]?.id);
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
+
+    const logOut = async () => {
+        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("LoginPage" as never);
+    };
+
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -73,7 +95,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("Cart")}
                 onPress2={() => navigation.navigate("Home")}
                 onPress3={() => navigation.navigate("HistoryPesanan")}
-                onPress4={() => navigation.navigate("login")}
+                onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("Laporan")}
             />
@@ -123,7 +145,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     // Penting ----------------
     // Buat map untuk mempermudah pencarian nama berdasarkan barangId
-    const barangMap = Object.fromEntries(barang.map((b) => [b.id, b.nama_product]));
+    const barangMap = Object.fromEntries(
+        barang.map((b) => [b.id, b.nama_product])
+    );
 
     // Ubah barangId menjadi nama
     const cartDenganNama = cart.map((item) => ({
@@ -152,7 +176,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     const hasilGabungan = Array.from(grouped1.values());
 
     // Buat map nama_barang => data barang
-    const barangMap2 = Object.fromEntries(barang.map((b) => [b.nama_product, b]));
+    const barangMap2 = Object.fromEntries(
+        barang.map((b) => [b.nama_product, b])
+    );
 
     // Tambahkan harga ke setiap item transaksi
     const transaksiDenganHarga = hasilGabungan.map((item) => {
@@ -346,13 +372,23 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             {/* ------------ */}
 
             {/* menampilkan daftar menu */}
-            <ScrollView style={{ paddingLeft : 10 }}>
+            <ScrollView style={{ paddingLeft: 10 }}>
                 <View>
-                    <Text style={{ fontSize: 20, fontWeight: "900", textAlign : "center" }}>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: "900",
+                            textAlign: "center",
+                        }}>
                         Grandian Hotel Brebes Restaurant
                     </Text>
                     <Text style={{ borderBottomWidth: 2, height: 2 }}></Text>
-                    <Text style={{ fontSize: 15, fontWeight: "light", textAlign : "center" }}>
+                    <Text
+                        style={{
+                            fontSize: 15,
+                            fontWeight: "light",
+                            textAlign: "center",
+                        }}>
                         Filter data berdasarkan tanggal yang dibutuhkan
                     </Text>
                     <View
@@ -360,8 +396,8 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             flexDirection: "row",
                             justifyContent: "space-between",
                             alignItems: "center",
-                            width : 300,
-                            marginLeft : 50
+                            width: 300,
+                            marginLeft: 50,
                         }}>
                         <TouchableOpacity
                             style={styles.buttonDate}
@@ -372,7 +408,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                 size={24}
                                 color="white"
                             />
-                            <Text style={{ color : "white" }}>
+                            <Text style={{ color: "white" }}>
                                 {date
                                     ? date.toISOString().split("T")[0]
                                     : dateNow}
@@ -395,7 +431,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                 size={24}
                                 color="white"
                             />
-                            <Text style={{ color : "white" }}>
+                            <Text style={{ color: "white" }}>
                                 {date2
                                     ? date2.toISOString().split("T")[0]
                                     : dateNow}
@@ -418,7 +454,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     <View style={styles.container}>
                         {/* Header */}
                         <View style={[styles.row, styles.header]}>
-                            <Text style={{ width: 50, paddingLeft: 5 }}>No</Text>
+                            <Text style={{ width: 50, paddingLeft: 5 }}>
+                                No
+                            </Text>
                             <Text
                                 style={[
                                     styles.cell,
@@ -446,7 +484,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                         {filteredData.map((item, index) => {
                             return (
                                 <View key={index} style={styles.row}>
-                                    <Text style={{ width: 50, paddingLeft : 5 }}>
+                                    <Text style={{ width: 50, paddingLeft: 5 }}>
                                         {index + 1}
                                     </Text>
                                     <Text style={[styles.cell, { flex: 2 }]}>
