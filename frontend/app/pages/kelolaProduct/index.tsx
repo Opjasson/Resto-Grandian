@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import {
     Image,
     ScrollView,
+    StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
@@ -88,7 +89,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View>
+        <View style={{ paddingBottom: 130 }}>
             {/* Product */}
             <View
                 style={{
@@ -126,7 +127,9 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 <Feather name="plus-circle" size={24} color="white" />
                 <Text style={{ color: "white" }}>Tambah Product</Text>
             </TouchableOpacity>
-            <ScrollView>
+            <ScrollView
+                contentContainerStyle={styles.container}
+                showsVerticalScrollIndicator={false}>
                 <View
                     style={{
                         flexDirection: "row",
@@ -139,9 +142,11 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                     {products.map((item, index) => (
                         <TouchableOpacity
                             key={index}
-                            onPress={() => navigation.navigate("UbahProduct", {
-                                data : item
-                            })}
+                            onPress={() =>
+                                navigation.navigate("UbahProduct", {
+                                    data: item,
+                                })
+                            }
                             activeOpacity={0.7}
                             style={{
                                 backgroundColor: "white",
@@ -192,7 +197,10 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                                     Rp. {item.harga_product.toLocaleString()}
                                 </Text>
 
-                                <TouchableOpacity onPress={() => handleDeleteProduct(item.id)}>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        handleDeleteProduct(item.id)
+                                    }>
                                     <MaterialIcons
                                         name="delete"
                                         size={24}
@@ -217,5 +225,12 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+    },
+});
 
 export default KelolaProduct;

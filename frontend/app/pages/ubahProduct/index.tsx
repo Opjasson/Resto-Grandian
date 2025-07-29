@@ -139,7 +139,7 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
                     keyboardType="default"
                     placeholder="Nama product"
                     value={nama_product}
-                    onChangeText={(text) => setNama_Product(text.toLowerCase())}
+                    onChangeText={(text) => setNama_Product(text)}
                 />
 
                 <Text style={styles.textLabel}>Harga</Text>
