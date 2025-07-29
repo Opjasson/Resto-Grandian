@@ -10,6 +10,7 @@ import HistoryPesanan from "./historyTransaksi";
 import LoginPage from "./login";
 import DetailTransaksi from "./detailTransaksi";
 import Laporan from "./laporan";
+import CekEmail from "./cekEmail";
 
 export {
     SplashScreen,
@@ -23,5 +24,6 @@ export {
     HistoryPesanan,
     LoginPage,
     DetailTransaksi,
-    Laporan
+    Laporan,
+    CekEmail
 };
