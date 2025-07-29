@@ -38,7 +38,7 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
                 setError(json.message);
             } else {
                 alert("Email terdaftar!");
-                navigation.navigate("changePass", {
+                navigation.navigate("ChangePass", {
                     user: json,
                 });
             }

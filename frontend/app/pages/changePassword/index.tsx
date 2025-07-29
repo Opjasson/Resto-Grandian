@@ -26,7 +26,7 @@ const ChangePass: React.FC<props> = ({ navigation, route }) => {
     const handleChange = async () => {
         if (password && confPassword) {
             const response = await fetch(
-                `http://192.168.220.220:5000/user/${user.id}`,
+                `http://192.168.239.220:5000/user/${user.id}`,
                 {
                     method: "PATCH",
                     headers: {
@@ -45,7 +45,7 @@ const ChangePass: React.FC<props> = ({ navigation, route }) => {
                 setError(json.msg);
             } else {
                 alert("Password berhasil dirubah!");
-                navigation.navigate("login");
+                navigation.navigate("LoginPage");
             }
         } else {
             setError("Isi email dan password!");
@@ -61,7 +61,7 @@ const ChangePass: React.FC<props> = ({ navigation, route }) => {
                         Lakukan Perubahan Password
                     </Text>
                     <Text style={styles.headLoginText2}>
-                        Aplikasi Kasir Bengkel
+                        Grandian Hotel Brebes Restaurant
                     </Text>
                     <Text style={styles.garisHead}></Text>
                 </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: "900",
         marginBottom: 10,
-        color: "#27548A",
+        color: "#1E5128",
         textAlign: "center",
     },
     headLoginText2: {
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         marginTop: -10,
     },
     button: {
-        backgroundColor: "#27548A",
+        backgroundColor: "#1E5128",
         width: "80%",
         paddingVertical: 15,
         alignItems: "center",
