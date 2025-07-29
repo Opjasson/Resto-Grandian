@@ -11,6 +11,7 @@ import LoginPage from "./login";
 import DetailTransaksi from "./detailTransaksi";
 import Laporan from "./laporan";
 import CekEmail from "./cekEmail";
+import ChangePass from "./changePassword";
 
 export {
     SplashScreen,
@@ -25,5 +26,6 @@ export {
     LoginPage,
     DetailTransaksi,
     Laporan,
-    CekEmail
+    CekEmail,
+    ChangePass
 };
