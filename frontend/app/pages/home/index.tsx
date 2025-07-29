@@ -25,6 +25,7 @@ import MenuDrawer from "react-native-side-drawer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -198,7 +199,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                         </Text>
                     </View>
                     <TouchableOpacity activeOpacity={0.7}>
-                        <Image source={photo} />
+                        <FontAwesome name="user" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
                 {/* End top menu */}
