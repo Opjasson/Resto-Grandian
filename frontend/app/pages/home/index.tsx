@@ -128,7 +128,7 @@ const Home: React.FC<props> = ({ navigation }) => {
             }),
         });
         setTransaksiId(2);
-        alert("Silahkan Lanjutkan Pesanan")
+        alert("Silahkan Lanjutkan Pesanan");
     };
 
     const getTransaksi = async () => {
@@ -149,7 +149,7 @@ const Home: React.FC<props> = ({ navigation }) => {
         (item) => item.buktiBayar === null
     );
 
-    console.log("buktiBayar",transaksiStatusUser);
+    console.log("buktiBayar", transaksiStatusUser);
 
     const sideBarContent = () => {
         return (
@@ -161,7 +161,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                 status={user === "kasir" ? false : true}
                 onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
-                onPress6={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("Laporan")}
             />
         );
     };

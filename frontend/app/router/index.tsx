@@ -13,6 +13,7 @@ import {
     HistoryPesanan,
     LoginPage,
     DetailTransaksi,
+    Laporan,
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonTabs } from "../components/moleculs";
@@ -29,7 +30,7 @@ const Router = () => {
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="DetailProduct" component={DetailProduct} />
-            <Stack.Screen name="Laporan" component={DetailProduct} />
+            <Stack.Screen name="Laporan" component={Laporan} />
             <Stack.Screen
                 options={{
                     headerShown: true,

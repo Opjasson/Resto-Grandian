@@ -63,7 +63,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 "Content-Type": "application/json",
             },
         });
-        alert("Product berhasil dihapus!")
+        alert("Product berhasil dihapus!");
         navigation.navigate("Home");
     };
 
@@ -84,7 +84,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 onPress3={() => navigation.navigate("HistoryPesanan")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
-                onPress6={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("Laporan")}
             />
         );
     };

@@ -69,7 +69,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                 onPress3={() => navigation.navigate("HistoryPenjualan")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
-                onPress6={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("Laporan")}
             />
         );
     };
@@ -160,8 +160,8 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                             key={index}
                             style={styles.card}
                             onPress={() =>
-                                navigation.navigate("DetailTransaksi",{
-                                    uuid : item.uuid
+                                navigation.navigate("DetailTransaksi", {
+                                    uuid: item.uuid,
                                 })
                             }>
                             <View style={styles.rowBetween}>

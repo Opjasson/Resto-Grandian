@@ -182,7 +182,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
     };
 
     console.log(dataShow);
-    
+
     const totalHarga = useMemo(() => {
         return dataShow.reduce(
             (total, item) => total + item.harga * item.qty,
@@ -283,7 +283,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                         }),
                     });
                 });
-    
+
                 await fetch(
                     `http://192.168.239.220:5000/transaksi/${idTransaksi}`,
                     {
@@ -299,12 +299,12 @@ const Cart: React.FC<props> = ({ navigation }) => {
                     }
                 );
                 alert("Berhasil");
-                navigation.navigate("Home")
+                navigation.navigate("Home");
             } catch (error) {
                 console.log(error);
             }
-        }else{
-            alert("Anda belum menyelesaikan pemesanan!")
+        } else {
+            alert("Anda belum menyelesaikan pemesanan!");
         }
     };
     // end handle buy button --------------------
@@ -318,14 +318,13 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 onPress3={() => navigation.navigate("HistoryPesanan")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("KelolaProduct")}
-                onPress6={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("Laporan")}
             />
         );
     };
     return (
         <ScrollView
             contentContainerStyle={styles.container}
-            
             showsVerticalScrollIndicator={false}>
             <View
                 style={{
@@ -464,7 +463,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
         backgroundColor: "#fff",
-        paddingBottom: 20
+        paddingBottom: 20,
     },
     cartTitle: {
         fontSize: 18,

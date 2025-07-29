@@ -73,7 +73,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
                 onPress4={() => navigation.navigate("login")}
-                onPress5={() => navigation.navigate("laporan")}
+                onPress5={() => navigation.navigate("Laporan")}
             />
         );
     };
@@ -362,7 +362,11 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                 size={24}
                                 color="black"
                             />
-                            {date ? date.toISOString().split("T")[0] : dateNow}
+                            <Text>
+                                {date
+                                    ? date.toISOString().split("T")[0]
+                                    : dateNow}
+                            </Text>
                         </TouchableOpacity>
 
                         <AntDesign
@@ -381,9 +385,11 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                                 size={24}
                                 color="black"
                             />
-                            {date2
-                                ? date2.toISOString().split("T")[0]
-                                : dateNow}
+                            <Text>
+                                {date2
+                                    ? date2.toISOString().split("T")[0]
+                                    : dateNow}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
