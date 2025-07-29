@@ -557,7 +557,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                             justifyContent: "center",
                         }}>
                         {products
-                            .filter((item, index) => item.promo !== null)
+                            .filter((item, index) => item.promo !== "no")
                             .map((a, index) => (
                                 <TouchableOpacity
                                     onPress={

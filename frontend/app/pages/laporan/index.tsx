@@ -327,9 +327,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             <View
                 style={{
                     flexDirection: "row",
-                    marginTop: 20,
+                    marginTop: 29,
                     marginBottom: 20,
-                    marginLeft: 20,
+                    marginLeft: 25,
                     gap: 10,
                     alignItems: "center",
                 }}>
