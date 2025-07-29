@@ -117,7 +117,7 @@ const LoginPage: React.FC<props> = ({ navigation }) => {
 
             <TouchableOpacity
                 style={styles.buatAkun}
-                onPress={() => navigation.navigate("cekEmail")}>
+                onPress={() => navigation.navigate("CekEmail")}>
                 <Text>Lupa password akun.</Text>
             </TouchableOpacity>
         </ScrollView>
