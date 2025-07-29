@@ -29,6 +29,7 @@ const Router = () => {
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="DetailProduct" component={DetailProduct} />
+            <Stack.Screen name="Laporan" component={DetailProduct} />
             <Stack.Screen
                 options={{
                     headerShown: true,
