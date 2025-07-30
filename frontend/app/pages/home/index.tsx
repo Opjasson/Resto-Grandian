@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import {
     Image,
     ScrollView,
+    StatusBar,
     Text,
     TextInput,
     TouchableOpacity,
@@ -168,13 +169,14 @@ const Home: React.FC<props> = ({ navigation }) => {
     };
     return (
         <View
-            style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20 }}>
+            style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20, paddingTop: 10 }}>
+                <StatusBar barStyle={"default"}/>
             <ScrollView>
                 {/* Top menu */}
                 <View
                     style={{
                         flexDirection: "row",
-                        marginTop: 30,
+                        // marginTop: 30,
                         marginHorizontal: 30,
                         justifyContent: "space-between",
                         alignItems: "center",

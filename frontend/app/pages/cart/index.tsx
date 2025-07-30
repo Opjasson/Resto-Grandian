@@ -8,6 +8,7 @@ import {
     ScrollView,
     Button,
     TextInput,
+    StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { GopayLogo } from "@/app/inventory/icons";
@@ -336,10 +337,10 @@ const Cart: React.FC<props> = ({ navigation }) => {
         <ScrollView
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}>
+            <StatusBar barStyle={"dark-content"} />
             <View
                 style={{
                     flexDirection: "row",
-                    marginTop: 30,
                     marginBottom: 20,
                     gap: 10,
                     alignItems: "center",
