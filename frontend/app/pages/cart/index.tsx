@@ -341,7 +341,6 @@ const Cart: React.FC<props> = ({ navigation }) => {
                 flex: 1,
                 backgroundColor: "#FBFBFB",
                 paddingBottom: 20,
-                paddingTop: 10,
             }}>
             <StatusBar barStyle={"default"} />
             <View
@@ -350,6 +349,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                     marginBottom: 20,
                     gap: 10,
                     alignItems: "center",
+                    paddingTop: 10
                 }}>
                 <Ionicons
                     name="menu"
