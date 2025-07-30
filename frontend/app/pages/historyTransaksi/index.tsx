@@ -6,6 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
+    StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -153,10 +154,10 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={"default"} />
             <View
                 style={{
                     flexDirection: "row",
-                    marginTop: 30,
                     marginBottom: 20,
                     marginHorizontal: 30,
                     gap: 10,
@@ -256,7 +257,12 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: "#f4f4f4" },
+    container: {
+        flex: 1,
+        backgroundColor: "#f4f4f4",
+        paddingBottom: 20,
+        paddingTop: 10,
+    },
     card: {
         backgroundColor: "#fff",
         marginHorizontal: 16,

@@ -112,12 +112,11 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View style={{ paddingBottom: 130 }}>
+        <View style={{ paddingBottom: 130, paddingTop: 10 }}>
             {/* Product */}
             <View
                 style={{
                     flexDirection: "row",
-                    marginTop: 30,
                     marginBottom: 20,
                     marginHorizontal: 30,
                     gap: 10,
@@ -236,7 +235,6 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 </View>
             </ScrollView>
             {/* End Product */}
-
             <MenuDrawer
                 open={open}
                 position={"left"}

@@ -336,8 +336,14 @@ const Cart: React.FC<props> = ({ navigation }) => {
     return (
         <ScrollView
             contentContainerStyle={styles.container}
-            showsVerticalScrollIndicator={false}>
-            <StatusBar barStyle={"dark-content"} />
+            showsVerticalScrollIndicator={false}
+            style={{
+                flex: 1,
+                backgroundColor: "#FBFBFB",
+                paddingBottom: 20,
+                paddingTop: 10,
+            }}>
+            <StatusBar barStyle={"default"} />
             <View
                 style={{
                     flexDirection: "row",

@@ -353,11 +353,11 @@ const Laporan: React.FC<props> = ({ navigation }) => {
             <View
                 style={{
                     flexDirection: "row",
-                    marginTop: 29,
                     marginBottom: 20,
                     marginLeft: 25,
                     gap: 10,
                     alignItems: "center",
+                    paddingTop: 10
                 }}>
                 <Ionicons
                     name="menu"
