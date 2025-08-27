@@ -343,7 +343,6 @@ const Cart: React.FC<props> = ({ navigation }) => {
                     flex: 1,
                     backgroundColor: "#FBFBFB",
                     paddingBottom: 20,
-                    
                 }}>
                 <StatusBar barStyle={"default"} />
                 <View
