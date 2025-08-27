@@ -26,6 +26,7 @@ import { NavigationProp } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Feather from "@expo/vector-icons/Feather";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -49,7 +50,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
 
     // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.239.220:5000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
     };
@@ -59,7 +60,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
     }, []);
 
     const logOut = async () => {
-        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+        await fetch(`http://192.168.232.220:5000/login/${idLogin}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +70,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
     };
 
     const getProducts = async () => {
-        const response = await fetch("http://192.168.239.220:5000/product");
+        const response = await fetch("http://192.168.232.220:5000/product");
         const data = await response.json();
         setProducts(data);
         // console.log(data);
@@ -80,7 +81,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
     }, []);
 
     const handleDeleteProduct = async (productId: number) => {
-        await fetch(`http://192.168.239.220:5000/product/${productId}`, {
+        await fetch(`http://192.168.232.220:5000/product/${productId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -112,7 +113,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View style={{ paddingBottom: 130, paddingTop: 10 }}>
+        <SafeAreaView style={{ paddingBottom: 130, paddingTop: 10 }}>
             {/* Product */}
             <View
                 style={{
@@ -243,7 +244,7 @@ const KelolaProduct: React.FC<props> = ({ navigation }) => {
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 

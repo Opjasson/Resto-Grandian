@@ -70,7 +70,7 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
 
     // get product -----------------------
     const getProducts = async () => {
-        const response = await fetch("http://192.168.239.220:5000/product");
+        const response = await fetch("http://192.168.232.220:5000/product");
         const data = await response.json();
         setProducts(data);
     };
@@ -83,7 +83,7 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
 
     // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.239.220:5000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
         setId(Object.values(data)[0]?.userId);
@@ -94,7 +94,7 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
     }, []);
 
     const getAkunLoggin = async () => {
-        const response = await fetch(`http://192.168.239.220:5000/user/${id}`);
+        const response = await fetch(`http://192.168.232.220:5000/user/${id}`);
         const user = await response.json();
         // console.log("login",user);
         setUser(user.role);
@@ -109,7 +109,7 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
     useEffect(() => {
         const getTransaksi = async () => {
             const response = await fetch(
-                "http://192.168.239.220:5000/transaksi"
+                "http://192.168.232.220:5000/transaksi"
             );
             const transaksiS = await response.json();
             setDataTransaksi(transaksiS.response);
@@ -152,9 +152,9 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
         setDataShow(hasilKeranjang || []);
     }, [dataTransaksi, products, username]);
 
-    const findData = dataShow.find(item => item.productId === sendData.id)
+    const findData = dataShow.find((item) => item.productId === sendData.id);
     // console.log("test", dataShow);
-    console.log("dataShow",findData);
+    console.log("dataShow", findData);
 
     // end data transaksi ---------------------
 
@@ -164,7 +164,7 @@ const DetailProduct: React.FC<props> = ({ navigation, route }) => {
             navigation.navigate("Cart");
         } else {
             try {
-                await fetch(`http://192.168.239.220:5000/cart`, {
+                await fetch(`http://192.168.232.220:5000/cart`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

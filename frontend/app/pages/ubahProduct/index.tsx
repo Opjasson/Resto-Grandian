@@ -13,7 +13,6 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-
 interface props {
     navigation: NavigationProp<any, any>;
     route: RouteProp<any, any>;
@@ -28,9 +27,7 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
     const [harga_product, setHarga_Product] = useState<number>(
         sendData.harga_product
     );
-    const [id, setId] = useState<number>(
-        sendData.id
-    );
+    const [id, setId] = useState<number>(sendData.id);
     const [kategori, setKategori] = useState<string>(sendData.kategori);
     const [deskripsi, setDeskripsi] = useState<string>(sendData.deskripsi);
     const [img_product, setImg_Product] = useState<string>(
@@ -39,8 +36,8 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
     const [promo, setPromo] = useState<string>(sendData.promo);
 
     console.log(sendData);
-    
- // handle uplod image --------------------
+
+    // handle uplod image --------------------
     useEffect(() => {
         (async () => {
             if (Platform.OS !== "web") {
@@ -103,29 +100,28 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
     };
 
     // end handle uplod image --------------
-    
+
     // Handle Update Product -----------
     const handleUpdateProduct = async () => {
-        await fetch(`http://192.168.239.220:5000/product/${id}`, {
+        await fetch(`http://192.168.232.220:5000/product/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nama_product : nama_product,
-                harga_product : harga_product,
-                kategori_product : kategori,
-                img_product : imgSend,
-                deskripsi : deskripsi,
-                promo : promo
+                nama_product: nama_product,
+                harga_product: harga_product,
+                kategori_product: kategori,
+                img_product: imgSend,
+                deskripsi: deskripsi,
+                promo: promo,
             }),
         });
-        alert("Product Berhasil Dirubah!")
-        navigation.navigate("KelolaProduct")
-    }
+        alert("Product Berhasil Dirubah!");
+        navigation.navigate("KelolaProduct");
+    };
     // end Handle Update Product -----------
 
-    
     return (
         <ScrollView>
             <View style={styles.containerForm}>
@@ -204,7 +200,15 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
                 </View>
 
                 <Text style={styles.textLabel}>Gambar Product</Text>
-                <Image src={img_product} style={{ width: 200, height: 200, marginLeft: 6, marginBottom: 10 }} />
+                <Image
+                    src={img_product}
+                    style={{
+                        width: 200,
+                        height: 200,
+                        marginLeft: 6,
+                        marginBottom: 10,
+                    }}
+                />
                 <TouchableOpacity
                     style={styles.button2}
                     onPress={() => pickImage()}>
@@ -214,7 +218,9 @@ const UbahProduct: React.FC<props> = ({ navigation, route }) => {
             </View>
             {/* End Form */}
 
-            <TouchableOpacity style={styles.button} onPress={handleUpdateProduct}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={handleUpdateProduct}>
                 <Text style={{ color: "white" }}>Ubah</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -242,7 +248,7 @@ const styles = StyleSheet.create({
         borderRadius: 9,
         color: "black",
         marginHorizontal: "auto",
-        marginTop : 20
+        marginTop: 20,
     },
     button2: {
         backgroundColor: "#fff",
@@ -252,7 +258,7 @@ const styles = StyleSheet.create({
         borderRadius: 9,
         color: "black",
         marginHorizontal: "auto",
-        borderWidth : 1
+        borderWidth: 1,
     },
     topBar: {
         flexDirection: "row",

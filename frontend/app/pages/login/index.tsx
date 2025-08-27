@@ -23,7 +23,7 @@ const LoginPage: React.FC<props> = ({ navigation }) => {
 
     const getUserId = async () => {
         try {
-            const response = await fetch("http://192.168.239.220:5000/login");
+            const response = await fetch("http://192.168.232.220:5000/login");
             const datas = await response.json();
             setData(datas); // update state
         } catch (error) {
@@ -43,11 +43,9 @@ const LoginPage: React.FC<props> = ({ navigation }) => {
         }
     }, [data]);
 
-
-
     const handleLogin = async () => {
         if (email && password) {
-            const response = await fetch("http://192.168.239.220:5000/login", {
+            const response = await fetch("http://192.168.232.220:5000/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Octicons from "@expo/vector-icons/Octicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { SafeAreaView } from "react-native-safe-area-context"
 
 interface props {
     onPress1: () => void;
@@ -27,7 +28,7 @@ const DrawerContent: React.FC<props> = ({
     status,
 }) => {
     return (
-        <View style={styles.animatedBox}>
+        <SafeAreaView style={styles.animatedBox}>
             <View style={styles.sidebarHead}>
                 <Ionicons name="restaurant" size={28} color="white" />
                 <Text style={styles.sidebarTitle}>Grandian Resto</Text>
@@ -124,7 +125,7 @@ const DrawerContent: React.FC<props> = ({
                     <Text style={{ fontSize: 18 }}>Tutup</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
     animatedBox: {
         flex: 1,
         backgroundColor: "#FFF8F8",
+        // borderWidth : 3
     },
     sidebarHead: {
         flexDirection: "row",

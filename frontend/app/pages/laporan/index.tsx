@@ -18,7 +18,8 @@ import * as FileSystem from "expo-file-system";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { hotel } from "@/app/inventory/images";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -69,7 +70,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.239.220:5000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
     };
@@ -79,7 +80,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     }, []);
 
     const logOut = async () => {
-        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+        await fetch(`http://192.168.232.220:5000/login/${idLogin}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -117,7 +118,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch("http://192.168.239.220:5000/cart");
+            const response = await fetch("http://192.168.232.220:5000/cart");
             const cat = await response.json();
             setCart(cat.response);
         } catch (error) {
@@ -127,7 +128,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.239.220:5000/product");
+            const response = await fetch("http://192.168.232.220:5000/product");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -348,7 +349,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     // console.log("tgl2", date2);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* bagian atas aplikasi kasir */}
             <View
                 style={{
@@ -357,7 +358,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     marginLeft: 25,
                     gap: 10,
                     alignItems: "center",
-                    paddingTop: 10
+                    paddingTop: 10,
                 }}>
                 <Ionicons
                     name="menu"
@@ -522,7 +523,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 

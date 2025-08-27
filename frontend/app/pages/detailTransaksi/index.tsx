@@ -42,7 +42,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.239.220:5000/transaksi/${routeUuid}`
+            `http://192.168.232.220:5000/transaksi/${routeUuid}`
         );
         const dataJson = await response.json();
         setCart(dataJson.keranjangs);
@@ -67,7 +67,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.239.220:5000/product");
+            const response = await fetch("http://192.168.232.220:5000/product");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -84,15 +84,15 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.239.220:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.232.220:5000/transaksi/${id}`, {
             method: "DELETE",
         });
-        alert("Transaksi Berhasil Dihapus!")
+        alert("Transaksi Berhasil Dihapus!");
         navigation.navigate("HistoryPesanan");
     };
 
     const handleUpdateStatus = async () => {
-        await fetch(`http://192.168.239.220:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.232.220:5000/transaksi/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -101,9 +101,9 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                 status: true,
             }),
         });
-        alert("Status Selesai!")
-        navigation.navigate("HistoryPesanan")
-    }
+        alert("Status Selesai!");
+        navigation.navigate("HistoryPesanan");
+    };
 
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
@@ -242,12 +242,15 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                             Bukti Bayar :
                         </Text>
 
-                        {buktiBayar?.length > 0 ? <Image
-                            resizeMode="cover"
-                            style={styles.img}
-                            src={buktiBayar}
-                        /> : ""}
-                        
+                        {buktiBayar?.length > 0 ? (
+                            <Image
+                                resizeMode="cover"
+                                style={styles.img}
+                                src={buktiBayar}
+                            />
+                        ) : (
+                            ""
+                        )}
                     </View>
                 </View>
                 <View style={styles.rowBetween}>

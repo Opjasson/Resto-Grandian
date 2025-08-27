@@ -27,6 +27,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -63,7 +64,7 @@ const Home: React.FC<props> = ({ navigation }) => {
 
     // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.239.220:5000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
         setId(Object.values(data)[0]?.userId);
@@ -74,7 +75,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     }, []);
 
     const getAkunLoggin = async () => {
-        const response = await fetch(`http://192.168.239.220:5000/user/${id}`);
+        const response = await fetch(`http://192.168.232.220:5000/user/${id}`);
         const user = await response.json();
         // console.log("login",user);
         setUser(user.role);
@@ -82,7 +83,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     };
 
     const logOut = async () => {
-        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+        await fetch(`http://192.168.232.220:5000/login/${idLogin}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -95,7 +96,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     // ------------------------
 
     const getProducts = async () => {
-        const response = await fetch("http://192.168.239.220:5000/product");
+        const response = await fetch("http://192.168.232.220:5000/product");
         const data = await response.json();
         setProducts(data);
         // console.log(data);
@@ -120,7 +121,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     };
 
     const createTransaksi = async () => {
-        const response = await fetch("http://192.168.239.220:5000/transaksi", {
+        const response = await fetch("http://192.168.232.220:5000/transaksi", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -134,7 +135,7 @@ const Home: React.FC<props> = ({ navigation }) => {
     };
 
     const getTransaksi = async () => {
-        const response = await fetch("http://192.168.239.220:5000/transaksi");
+        const response = await fetch("http://192.168.232.220:5000/transaksi");
         const transaksiS = await response.json();
         // console.log(transaksiS.response);
         setDataTransaksi(transaksiS.response);
@@ -168,9 +169,14 @@ const Home: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <View
-            style={{ flex: 1, backgroundColor: "#FBFBFB", paddingBottom: 20, paddingTop: 10 }}>
-                <StatusBar barStyle={"default"}/>
+        <SafeAreaView
+            style={{
+                flex: 1,
+                backgroundColor: "#FBFBFB",
+                paddingBottom: 20,
+                paddingTop: 10,
+            }}>
+            <StatusBar barStyle={"default"} />
             <ScrollView>
                 {/* Top menu */}
                 <View
@@ -654,7 +660,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 

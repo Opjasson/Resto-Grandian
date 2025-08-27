@@ -96,7 +96,7 @@ const TambahProduct: React.FC<props> = ({ navigation, route }) => {
 
     // Handle Update Product -----------
     const handleUpdateProduct = async () => {
-        await fetch(`http://192.168.239.220:5000/product`, {
+        await fetch(`http://192.168.232.220:5000/product`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

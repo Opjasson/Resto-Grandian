@@ -13,6 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 import { NavigationProp } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context"
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -78,7 +79,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
 
     // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.239.220:5000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
         setIdLogin(Object.values(data)[0]?.id);
     };
@@ -88,7 +89,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
     }, []);
 
     const logOut = async () => {
-        await fetch(`http://192.168.239.220:5000/login/${idLogin}`, {
+        await fetch(`http://192.168.232.220:5000/login/${idLogin}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -100,7 +101,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
     const getHistorys = async () => {
         try {
             const response = await fetch(
-                "http://192.168.239.220:5000/transaksi"
+                "http://192.168.232.220:5000/transaksi"
             );
             const history = (await response.json()) as {
                 response: {
@@ -135,7 +136,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.239.220:5000/product");
+            const response = await fetch("http://192.168.232.220:5000/product");
             const barang = await response.json();
             console.log(barang);
             setBarang(barang);
@@ -153,7 +154,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar barStyle={"default"} />
             <View
                 style={{
@@ -252,7 +253,7 @@ const HistoryPesanan: React.FC<props> = ({ navigation }) => {
                 animationTime={250}
                 overlay={true}
                 opacity={0.4}></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 
