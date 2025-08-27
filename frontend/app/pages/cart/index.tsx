@@ -335,7 +335,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
         );
     };
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, }}>
             <ScrollView
                 contentContainerStyle={styles.container}
                 showsVerticalScrollIndicator={false}
@@ -343,6 +343,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                     flex: 1,
                     backgroundColor: "#FBFBFB",
                     paddingBottom: 20,
+                    
                 }}>
                 <StatusBar barStyle={"default"} />
                 <View
@@ -352,6 +353,7 @@ const Cart: React.FC<props> = ({ navigation }) => {
                         gap: 10,
                         alignItems: "center",
                         paddingTop: 10,
+                        
                     }}>
                     <Ionicons
                         name="menu"
