@@ -96,22 +96,27 @@ const TambahProduct: React.FC<props> = ({ navigation, route }) => {
 
     // Handle Update Product -----------
     const handleUpdateProduct = async () => {
-        await fetch(`http://192.168.232.220:5000/product`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                nama_product: nama_product,
-                harga_product: harga_product,
-                kategori_product: kategori,
-                img_product: imgSend,
-                deskripsi: deskripsi,
-                promo: promo,
-            }),
-        });
-        alert("Product Berhasil ditambahkan");
-        navigation.navigate("KelolaProduct");
+        try {
+            await fetch(`http://192.168.232.220:5000/product`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nama_product: nama_product,
+                    harga_product: harga_product,
+                    kategori_product: kategori,
+                    img_product: imgSend,
+                    deskripsi: deskripsi,
+                    promo: promo,
+                }),
+            });
+            alert("Product Berhasil ditambahkan");
+            navigation.navigate("KelolaProduct");
+        } catch (error) {
+            console.log(error);
+        }
+        
     };
     // end Handle Update Product -----------
 
