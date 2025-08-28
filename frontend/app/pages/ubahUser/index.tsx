@@ -17,29 +17,46 @@ interface props {
 }
 
 const UbahUser: React.FC<props> = ({ navigation, route }) => {
-    const [email, setEmail] = useState<string>();
-    const [username, setUsername] = useState<string>();
+    // Get id menggunakan params di previos page
+    const index = route.params?.id;
+    const sendData = route.params?.data;
+    const [error, setError] = useState<string>();
+
+   const [email, setEmail] = useState<string>(sendData.email);
+   const [username, setUsername] = useState<string>(sendData.username);
     const [password, setPassword] = useState<string>();
     const [confPassword, setConfPassword] = useState<string>();
 
     // Handle Update Product -----------
-    const handleUpdateProduct = async () => {
-        await fetch(`http://192.168.232.220:5000/user`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                username: username,
-                password: password,
-                confPassword: confPassword,
-                role : "user"
-            }),
-        });
-        alert("User Berhasil ditambahkan");
-        navigation.navigate("KelolaUser");
-    };
+       const handleUbah = async (id: number) => {
+           if (email && password && confPassword) {
+               const response = await fetch(
+                   `http://192.168.232.220:5000/user/${id}`,
+                   {
+                       method: "PATCH",
+                       headers: {
+                           "Content-Type": "application/json",
+                       },
+                       body: JSON.stringify({
+                           email: email,
+                           username: username,
+                           password: password,
+                           confPassword: confPassword,
+                       }),
+                   }
+               );
+
+               if (JSON.stringify(response.status) === "400") {
+                   setError("Password dan confPassword tidak sama!");
+               } else {
+                   alert("Berhasil merubah akun");
+                   navigation.navigate("KelolaUser");
+               }
+           } else {
+               setError("Isi dengan lengkap!");
+           }
+       };
+
     // end Handle Update Product -----------
 
     return (
@@ -53,6 +70,7 @@ const UbahUser: React.FC<props> = ({ navigation, route }) => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
+                    value={`${email}`}
                     placeholder="Email"
                     onChangeText={(text) => setEmail(text)}
                 />
@@ -65,6 +83,7 @@ const UbahUser: React.FC<props> = ({ navigation, route }) => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
+                    value={`${username}`}
                     placeholder="Username"
                     onChangeText={(text) => setUsername(text)}
                 />
@@ -97,7 +116,7 @@ const UbahUser: React.FC<props> = ({ navigation, route }) => {
 
             <TouchableOpacity
                 style={styles.button}
-                onPress={handleUpdateProduct}>
+                onPress={() => handleUbah(index)}>
                 <Text style={{ color: "white" }}>Kirim</Text>
             </TouchableOpacity>
         </ScrollView>

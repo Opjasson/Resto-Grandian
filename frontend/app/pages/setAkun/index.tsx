@@ -207,7 +207,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             onPress={() =>
-                                navigation.navigate("UbahAkun", {
+                                navigation.navigate("UbahUser", {
                                     id: item.id,
                                     data: item,
                                 })
