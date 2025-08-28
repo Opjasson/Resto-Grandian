@@ -5,6 +5,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Octicons from "@expo/vector-icons/Octicons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context"
+import Entypo from "@expo/vector-icons/Entypo";
 
 interface props {
     onPress1: () => void;
@@ -13,6 +14,7 @@ interface props {
     onPress4: () => void;
     onPress5: () => void;
     onPress6: () => void;
+    onPress7: () => void;
     toggleOpen: () => void;
     status?: boolean;
 }
@@ -25,6 +27,7 @@ const DrawerContent: React.FC<props> = ({
     onPress4,
     onPress5,
     onPress6,
+    onPress7,
     status,
 }) => {
     return (
@@ -95,6 +98,18 @@ const DrawerContent: React.FC<props> = ({
                     }}>
                     <Text style={styles.sidebarMenu}>Laporan</Text>
                     <FontAwesome5 name="tasks" size={27} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={onPress7}
+                    style={{
+                        flexDirection: "row",
+                        borderBottomWidth: 2,
+                        gap: 5,
+                        display: status ? "none" : "flex",
+                    }}>
+                    <Text style={styles.sidebarMenu}>Kelola User</Text>
+                    <Entypo name="add-user" size={27} color="black" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
