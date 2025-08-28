@@ -11,45 +11,41 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-
 interface props {
     navigation: NavigationProp<any, any>;
     route: RouteProp<any, any>;
 }
 
 const TambahUser: React.FC<props> = ({ navigation, route }) => {
-    const [nama_product, setNama_Product] = useState<string>();
-    const [harga_product, setHarga_Product] = useState<number>();
-    const [kategori, setKategori] = useState<string>();
-    const [deskripsi, setDeskripsi] = useState<string>();
-    const [promo, setPromo] = useState<string>();
-
+    const [email, setEmail] = useState<string>();
+    const [username, setUsername] = useState<string>();
+    const [password, setPassword] = useState<string>();
+    const [confPassword, setConfPassword] = useState<string>();
 
     // Handle Update Product -----------
     const handleUpdateProduct = async () => {
-        await fetch(`http://192.168.232.220:5000/product`, {
+        await fetch(`http://192.168.232.220:5000/user`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nama_product: nama_product,
-                harga_product: harga_product,
-                kategori_product: kategori,
-                img_product: imgSend,
-                deskripsi: deskripsi,
-                promo: promo,
+                email: email,
+                username: username,
+                password: password,
+                confPassword: confPassword,
+                role : "user"
             }),
         });
-        alert("Product Berhasil ditambahkan");
-        navigation.navigate("KelolaProduct");
+        alert("User Berhasil ditambahkan");
+        navigation.navigate("KelolaUser");
     };
     // end Handle Update Product -----------
 
     return (
         <ScrollView>
             <View style={styles.containerForm}>
-                <Text style={styles.textLabel}>Nama Product</Text>
+                <Text style={styles.textLabel}>Email</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
@@ -57,66 +53,45 @@ const TambahUser: React.FC<props> = ({ navigation, route }) => {
                         borderRadius: 5,
                     }}
                     keyboardType="default"
-                    placeholder="Nama product"
-                    onChangeText={(text) => setNama_Product(text)}
+                    placeholder="Email"
+                    onChangeText={(text) => setEmail(text)}
                 />
 
-                <Text style={styles.textLabel}>Harga</Text>
+                <Text style={styles.textLabel}>Username</Text>
                 <TextInput
                     style={{
                         borderWidth: 1,
                         marginBottom: 5,
                         borderRadius: 5,
                     }}
-                    keyboardType="numeric"
-                    placeholder="Rp."
-                    onChangeText={(text) => setHarga_Product(Number(text))}
+                    keyboardType="default"
+                    placeholder="Username"
+                    onChangeText={(text) => setUsername(text)}
                 />
 
-                <Text style={styles.textLabel}>Deskripsi</Text>
+                <Text style={styles.textLabel}>Password</Text>
                 <TextInput
-                    style={styles.textArea}
-                    placeholder="Deskripsi"
-                    onChangeText={(text) => setDeskripsi(text)}
-                    multiline={true}
-                    numberOfLines={4}
+                    style={{
+                        borderWidth: 1,
+                        marginBottom: 5,
+                        borderRadius: 5,
+                    }}
+                    keyboardType="default"
+                    placeholder="Password"
+                    onChangeText={(text) => setPassword(text)}
                 />
 
-                <Text style={styles.textLabel}>Kategori</Text>
-                <View
+                <Text style={styles.textLabel}>Confirm Password</Text>
+                <TextInput
                     style={{
                         borderWidth: 1,
                         marginBottom: 5,
                         borderRadius: 5,
-                    }}>
-                    <Picker
-                        onValueChange={(value, index) => setKategori(value)}>
-                        <Picker.Item
-                            value={"undefined"}
-                            label="Pilih Ketegori"
-                        />
-                        <Picker.Item value={"makanan"} label="Makanan" />
-                        <Picker.Item value={"minuman"} label="Minuman" />
-                    </Picker>
-                </View>
-
-                <Text style={styles.textLabel}>Promo?</Text>
-                <View
-                    style={{
-                        borderWidth: 1,
-                        marginBottom: 5,
-                        borderRadius: 5,
-                    }}>
-                    <Picker onValueChange={(value, index) => setPromo(value)}>
-                        <Picker.Item
-                            value={"undefined"}
-                            label="Setting Promo"
-                        />
-                        <Picker.Item value={"no"} label="No" />
-                        <Picker.Item value={"offer"} label="Offer" />
-                    </Picker>
-                </View>
-
+                    }}
+                    keyboardType="default"
+                    placeholder="Konfimasi Password"
+                    onChangeText={(text) => setConfPassword(text)}
+                />
             </View>
             {/* End Form */}
 
