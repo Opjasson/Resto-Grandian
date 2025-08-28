@@ -145,7 +145,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
             {/* button create transaksi */}
             <TouchableOpacity
-                // onPress={createTransaksi}
+                onPress={() => navigation.navigate("TambahUser")}
                 activeOpacity={0.8}
                 style={{
                     justifyContent: "center",
@@ -159,7 +159,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     marginRight: 10,
                     width: "40%",
                     marginLeft: 10,
-                    marginBottom: 10
+                    marginBottom: 10,
                 }}>
                 <FontAwesome6 name="notes-medical" size={24} color="white" />
                 <Text

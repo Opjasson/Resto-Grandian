@@ -66,7 +66,7 @@ const Router = () => {
             <Stack.Screen
                 options={{
                     headerShown: true,
-                    headerTitle: "Tambah Product",
+                    headerTitle: "Tambah User",
                 }}
                 name="TambahUser"
                 component={TambahUser}
