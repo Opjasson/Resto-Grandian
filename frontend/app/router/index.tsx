@@ -17,6 +17,7 @@ import {
     CekEmail,
     ChangePass,
     SetAkun,
+    TambahUser,
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonTabs } from "../components/moleculs";
@@ -62,6 +63,14 @@ const Router = () => {
             />
             <Stack.Screen name="HistoryPesanan" component={HistoryPesanan} />
             <Stack.Screen name="KelolaUser" component={SetAkun} />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Tambah Product",
+                }}
+                name="TambahUser"
+                component={TambahUser}
+            />
         </Stack.Navigator>
     );
 };

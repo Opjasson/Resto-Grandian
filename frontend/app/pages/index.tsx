@@ -13,6 +13,7 @@ import Laporan from "./laporan";
 import CekEmail from "./cekEmail";
 import ChangePass from "./changePassword";
 import SetAkun from "./setAkun";
+import TambahUser from "./tambahUser";
 
 export {
     SplashScreen,
@@ -30,4 +31,5 @@ export {
     CekEmail,
     ChangePass,
     SetAkun,
+    TambahUser
 };
