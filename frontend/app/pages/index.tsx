@@ -12,6 +12,7 @@ import DetailTransaksi from "./detailTransaksi";
 import Laporan from "./laporan";
 import CekEmail from "./cekEmail";
 import ChangePass from "./changePassword";
+import SetAkun from "./setAkun";
 
 export {
     SplashScreen,
@@ -27,5 +28,6 @@ export {
     DetailTransaksi,
     Laporan,
     CekEmail,
-    ChangePass
+    ChangePass,
+    SetAkun,
 };
