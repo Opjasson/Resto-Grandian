@@ -22,46 +22,49 @@ const UbahUser: React.FC<props> = ({ navigation, route }) => {
     const sendData = route.params?.data;
     const [error, setError] = useState<string>();
 
-   const [email, setEmail] = useState<string>(sendData.email);
-   const [username, setUsername] = useState<string>(sendData.username);
+    const [email, setEmail] = useState<string>(sendData.email);
+    const [username, setUsername] = useState<string>(sendData.username);
     const [password, setPassword] = useState<string>();
     const [confPassword, setConfPassword] = useState<string>();
 
     // Handle Update Product -----------
-       const handleUbah = async (id: number) => {
-           if (email && password && confPassword) {
-               const response = await fetch(
-                   `http://192.168.232.220:5000/user/${id}`,
-                   {
-                       method: "PATCH",
-                       headers: {
-                           "Content-Type": "application/json",
-                       },
-                       body: JSON.stringify({
-                           email: email,
-                           username: username,
-                           password: password,
-                           confPassword: confPassword,
-                       }),
-                   }
-               );
+    const handleUbah = async (id: number) => {
+        if (email && password && confPassword) {
+            const response = await fetch(
+                `http://192.168.232.220:5000/user/${id}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        username: username,
+                        password: password,
+                        confPassword: confPassword,
+                    }),
+                }
+            );
 
-               if (JSON.stringify(response.status) === "400") {
-                   setError("Password dan confPassword tidak sama!");
-               } else {
-                   alert("Berhasil merubah akun");
-                   navigation.navigate("KelolaUser");
-               }
-           } else {
-               setError("Isi dengan lengkap!");
-           }
-       };
+            if (JSON.stringify(response.status) === "400") {
+                setError("Password dan confPassword tidak sama!");
+            } else {
+                alert("Berhasil merubah akun");
+                navigation.navigate("KelolaUser");
+            }
+        } else {
+            setError("Isi dengan lengkap!");
+        }
+    };
 
     // end Handle Update Product -----------
 
     return (
         <ScrollView>
             <View style={styles.containerForm}>
+                <Text style={error ? styles.errorMsg : styles.hidden}>
+                    {error}
+                </Text> 
                 <Text style={styles.textLabel}>Email</Text>
                 <TextInput
                     style={{
@@ -124,6 +127,14 @@ const UbahUser: React.FC<props> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+    hidden : {
+        display : "none"
+    },
+    errorMsg: {
+        fontSize: 18,
+        color: "red",
+        textAlign: "center",
+    },
     textArea: {
         width: "100%",
         height: 100,
