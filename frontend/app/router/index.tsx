@@ -21,6 +21,7 @@ import {
 } from "../pages";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ButtonTabs } from "../components/moleculs";
+import UbahUser from "../pages/ubahUser";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,14 @@ const Router = () => {
                 }}
                 name="TambahUser"
                 component={TambahUser}
+            />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Ubah User",
+                }}
+                name="UbahUser"
+                component={UbahUser}
             />
         </Stack.Navigator>
     );
