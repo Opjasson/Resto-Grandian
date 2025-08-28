@@ -128,7 +128,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                 </Text>
             </View>
             {/* ------------ */}
-            <StatusBar barStyle="light-content" />
+            <StatusBar barStyle="default" />
 
             <View style={styles.headInfo}>
                 <Text style={{ fontSize: 26, fontWeight: "700" }}>
