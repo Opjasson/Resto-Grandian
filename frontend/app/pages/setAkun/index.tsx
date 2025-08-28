@@ -8,7 +8,10 @@ import {
     Alert,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { DrawerContent } from "@/app/components";
+import MenuDrawer from "react-native-side-drawer";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -19,32 +22,66 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
         {
             id: number;
             email: string;
+            username: string;
         }[]
     >([]);
-
+    const [open, setOpen] = useState(false);
+    const [idLogin, setIdLogin] = useState<number>();
     const [id, setId] = useState<number>();
 
+    // Get Data Login --------------------------
     const getUserId = async () => {
-        const response = await fetch("http://192.168.220.220:8000/login");
+        const response = await fetch("http://192.168.232.220:5000/login");
         const data = await response.json();
-        setId(Object.values(data)[0]?.userId);
+        setIdLogin(Object.values(data)[0]?.id);
     };
 
     useEffect(() => {
         getUserId();
     }, []);
 
-    // useEffect(() => {
-    //     if (id !== 2) {
-    //         navigation.navigate("Home");
-    //     }
-    // });
+    const logOut = async () => {
+        await fetch(`http://192.168.232.220:5000/login/${idLogin}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        navigation.navigate("LoginPage" as never);
+    };
+
+    const toggleOpen = () => {
+        if (open === false) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
+    };
+
+    const sideBarContent = () => {
+        return (
+            <DrawerContent
+                toggleOpen={toggleOpen}
+                onPress1={() => navigation.navigate("Cart")}
+                onPress2={() => navigation.navigate("Home")}
+                onPress3={() => navigation.navigate("HistoryPesanan")}
+                onPress4={() => logOut()}
+                onPress5={() => navigation.navigate("KelolaProduct")}
+                onPress6={() => navigation.navigate("Laporan")}
+                onPress7={() => navigation.navigate("KelolaUser")}
+            />
+        );
+    };
+
+    useEffect(() => {
+        getUserId();
+    }, []);
 
     // Get data lewat api
     const fetchData = async () => {
-        const response = await fetch("http://192.168.220.220:8000/user");
+        const response = await fetch("http://192.168.232.220:5000/user");
         const data = await response.json();
-        setUser(data);
+        setUser(data.data);
     };
 
     // Get data lewat api
@@ -66,9 +103,32 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
         fetchData();
     }, []);
 
+
+
     return (
-        <View style={styles.container}>
-            <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
+        <SafeAreaView style={styles.container}>
+            {/* bagian atas aplikasi kasir */}
+            <View
+                style={{
+                    flexDirection: "row",
+                    marginBottom: 20,
+                    marginLeft: 25,
+                    gap: 10,
+                    alignItems: "center",
+                    paddingTop: 10,
+                }}>
+                <Ionicons
+                    name="menu"
+                    size={30}
+                    color="black"
+                    onPress={() => toggleOpen()}
+                />
+                <Text style={{ fontWeight: "500", fontSize: 20 }}>
+                    Kelola User
+                </Text>
+            </View>
+            {/* ------------ */}
+            <StatusBar barStyle="light-content" />
 
             <View style={styles.headInfo}>
                 <Text style={{ fontSize: 26, fontWeight: "700" }}>
@@ -80,7 +140,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         height: 0,
                         width: "70%",
                     }}></Text>
-                <Text>Mengelola semua akun FO</Text>
+                <Text>Mengelola semua akun User</Text>
             </View>
 
             {/* button create transaksi */}
@@ -98,13 +158,15 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     gap: 5,
                     marginRight: 10,
                     width: "40%",
+                    marginLeft: 10,
+                    marginBottom: 10
                 }}>
                 <FontAwesome6 name="notes-medical" size={24} color="white" />
                 <Text
                     style={{
                         color: "white",
                     }}>
-                    New Transaksi
+                    Tambah User
                 </Text>
             </TouchableOpacity>
             {/* end button transaksi */}
@@ -135,7 +197,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                         marginBottom: 8,
                     }}>
                     <Text style={{ fontSize: 18, width: "60%" }}>
-                        {item.email}
+                        {item.username}
                     </Text>
                     <View
                         style={{
@@ -162,7 +224,16 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     </View>
                 </View>
             ))}
-        </View>
+
+            <MenuDrawer
+                open={open}
+                position={"left"}
+                drawerContent={sideBarContent()}
+                drawerPercentage={70}
+                animationTime={250}
+                overlay={true}
+                opacity={0.4}></MenuDrawer>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
@@ -171,7 +242,6 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingHorizontal: 10,
         paddingBottom: 19,
-        backgroundColor: "#3bb9f7",
         gap: 8,
         marginBottom: 30,
     },
@@ -182,7 +252,6 @@ const styles = StyleSheet.create({
     navbar: {
         padding: 7,
         marginBottom: 40,
-        backgroundColor: "#3bb9f7",
     },
     container: {
         flex: 1,

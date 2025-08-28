@@ -165,6 +165,7 @@ const Home: React.FC<props> = ({ navigation }) => {
                 onPress4={() => logOut()}
                 onPress5={() => navigation.navigate("KelolaProduct")}
                 onPress6={() => navigation.navigate("Laporan")}
+                onPress7={() => navigation.navigate("KelolaUser")}
             />
         );
     };
