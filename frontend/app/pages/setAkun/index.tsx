@@ -86,14 +86,14 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const deleteAkun = async (id: number) => {
-        const response = await fetch(`http://192.168.220.220:8000/user/${id}`, {
+        const response = await fetch(`http://192.168.232.220:5000/user/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
         });
         if (response) {
-            Alert.alert("Data berhasl dihapus!");
+            Alert.alert("User berhasl dihapus!");
             navigation.navigate("Home");
         }
     };
